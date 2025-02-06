@@ -10,6 +10,7 @@
   <h2>Widget Editor</h2>
   <div class="container">
     <div class="editor">
+      <!-- General fields -->
       <div class="section">
         <label for="category">Category</label>
         <input type="text" id="category" value="Kategorie">
@@ -32,18 +33,28 @@
         </select>
       </div>
   
+      <!-- Tabs section -->
       <div class="section">
         <h3>Tabs (1–4)</h3>
         <div id="tabsContainer"></div>
         <button id="addTab">Add Tab</button>
       </div>
   
+      <!-- Optional sections -->
       <div class="section">
         <h3>Optional Sections (0–4)</h3>
         <div id="optContainer"></div>
         <button id="addOpt">Add Optional Section</button>
       </div>
   
+      <!-- New: Load Existing Widget -->
+      <div class="section">
+        <label for="loadLink">Load Existing Widget Embed Link</label>
+        <input type="text" id="loadLink" placeholder="Paste embed link here">
+        <button id="loadWidget">Load Widget</button>
+      </div>
+
+      <!-- Generate embed link -->
       <button id="generateLink">Generate Embed Link</button>
       <div id="embedLinkContainer"></div>
     </div>

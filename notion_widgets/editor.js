@@ -255,6 +255,49 @@ document.getElementById("generateLink").addEventListener("click", () => {
   });
 });
 
+document.getElementById("loadWidget").addEventListener("click", () => {
+  const link = document.getElementById("loadLink").value.trim();
+  if (!link) return;
+  try {
+    const url = new URL(link);
+    const params = new URLSearchParams(url.search);
+
+    // Update basic fields.
+    document.getElementById("category").value = params.get("cat") || "";
+    document.getElementById("department").value = params.get("dept") || "";
+    document.getElementById("title").value = params.get("title") || "";
+    document.getElementById("description").value = params.get("desc") || "";
+    document.getElementById("headingColor").value = params.get("headColor") || "#009688";
+
+    // Parse and update tabs.
+    const parsedTabs = JSON.parse(params.get("tabs") || "[]");
+    tabs = [];
+    tabCounter = 0;
+    parsedTabs.forEach(t => {
+      let newTab = { id: tabCounter++, name: t.name, rows: [] };
+      t.rows.forEach(r => {
+        newTab.rows.push({ id: Date.now() + Math.random(), heading: r.heading, content: r.content });
+      });
+      tabs.push(newTab);
+    });
+
+    // Parse and update optional sections.
+    const parsedOpts = JSON.parse(params.get("opt_sections") || "[]");
+    optSections = [];
+    optCounter = 0;
+    parsedOpts.forEach(o => {
+      optSections.push({ id: optCounter++, heading: o.heading, content: o.content });
+    });
+
+    renderTabs();
+    renderOptSections();
+    updatePreview();
+  } catch(e) {
+    alert("Invalid embed link");
+  }
+});
+
+
 createTab();
 renderTabs();
 renderOptSections();
