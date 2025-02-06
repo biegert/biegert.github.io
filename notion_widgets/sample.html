@@ -3,91 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <title>Summary Box Editor</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 20px; }
-    .editor { max-width: 500px; margin-bottom: 40px; }
-    .editor input, .editor textarea { width: 100%; margin: 5px 0 15px; padding: 8px; font-size: 1rem; }
-    .preview {
-      border: 1px solid #ccc; padding: 15px;
-      background: #f9f9f9; border-radius: 5px;
-    }
-    .summary-title { font-weight: bold; font-size: 1.2rem; margin-bottom: 10px; }
-    .summary-item { margin: 5px 0; }
-    .generate-btn { padding: 10px 20px; font-size: 1rem; cursor: pointer; }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-  <div class="editor">
-    <h2>Create Your Summary Box</h2>
-    <label>
-      Surgery Name:
-      <input type="text" id="surgeryName" placeholder="Enter surgery name">
-    </label>
-    <label>
-      Anaesthesia Type:
-      <input type="text" id="anaesthesia" placeholder="e.g., General">
-    </label>
-    <label>
-      Regional Blocks:
-      <input type="text" id="regionalBlocks" placeholder="e.g., Femoral block">
-    </label>
-    <label>
-      Antibiotics:
-      <textarea id="antibiotics" rows="2" placeholder="e.g., Cefazolin, dosage"></textarea>
-    </label>
-    <button class="generate-btn" id="generateLink">Generate Embed Link</button>
+  <div class="container">
+    <div class="editor card">
+      <h2>Create Your Summary Box</h2>
+      <div class="form-group">
+        <label for="surgeryName">Surgery Name:</label>
+        <input type="text" id="surgeryName" placeholder="Enter surgery name">
+      </div>
+      <div id="sectionsContainer">
+        <!-- Dynamic sections will be added here -->
+      </div>
+      <button id="addSectionBtn" class="btn">Add Section</button>
+      <button id="generateLink" class="btn">Generate Embed Link</button>
+    </div>
+    <div class="preview card">
+      <div class="preview-header" id="previewTitle">Summary Box</div>
+      <div id="previewContent">
+        <!-- Live preview of sections -->
+      </div>
+    </div>
   </div>
-
-  <div class="preview">
-    <div class="summary-title" id="previewTitle">Summary Box</div>
-    <div class="summary-item" id="previewSurgery">Surgery: <em>N/A</em></div>
-    <div class="summary-item" id="previewAnaesthesia">Anaesthesia: <em>N/A</em></div>
-    <div class="summary-item" id="previewBlocks">Regional Blocks: <em>N/A</em></div>
-    <div class="summary-item" id="previewAntibiotics">Antibiotics: <em>N/A</em></div>
-  </div>
-
-  <script>
-    // Helper: update preview element content or fallback to 'N/A'
-    function updatePreview(id, value, label) {
-      document.getElementById(id).innerHTML = label + ": <em>" + (value.trim() || "N/A") + "</em>";
-    }
-
-    // Get elements
-    const surgeryNameInput = document.getElementById("surgeryName");
-    const anaesthesiaInput = document.getElementById("anaesthesia");
-    const regionalBlocksInput = document.getElementById("regionalBlocks");
-    const antibioticsInput = document.getElementById("antibiotics");
-
-    // Live update listeners
-    surgeryNameInput.addEventListener("input", () => {
-      const val = surgeryNameInput.value;
-      document.getElementById("previewTitle").textContent = val.trim() || "Summary Box";
-      updatePreview("previewSurgery", val, "Surgery");
-    });
-    anaesthesiaInput.addEventListener("input", () => {
-      updatePreview("previewAnaesthesia", anaesthesiaInput.value, "Anaesthesia");
-    });
-    regionalBlocksInput.addEventListener("input", () => {
-      updatePreview("previewBlocks", regionalBlocksInput.value, "Regional Blocks");
-    });
-    antibioticsInput.addEventListener("input", () => {
-      updatePreview("previewAntibiotics", antibioticsInput.value, "Antibiotics");
-    });
-
-    // Generate embed link (using URL parameters as a simple example)
-    document.getElementById("generateLink").addEventListener("click", () => {
-      const params = new URLSearchParams({
-        surgeryName: surgeryNameInput.value,
-        anaesthesia: anaesthesiaInput.value,
-        regionalBlocks: regionalBlocksInput.value,
-        antibiotics: antibioticsInput.value
-      });
-      // Replace 'username' and 'notion-widgets' with your GitHub Pages info.
-      const embedURL = `https://username.github.io/notion-widgets/widget.html?${params.toString()}`;
-      prompt("Embed URL (copy and paste this into Notion):", embedURL);
-    });
-  </script>
-
+  <script src="script.js"></script>
 </body>
 </html>
