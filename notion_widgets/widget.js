@@ -59,10 +59,10 @@ const optDiv = document.getElementById("widgetOptional");
 if(optSections.length > 0) {
   optSections.forEach(opt => {
     const h = document.createElement("div");
-    h.style.fontWeight = "bold";
+    h.className = "optional-heading";
     h.textContent = opt.heading;
     const p = document.createElement("div");
-    p.style.color = "gray";
+    p.className = "optional-content";
     p.textContent = opt.content;
     optDiv.appendChild(h);
     optDiv.appendChild(p);
