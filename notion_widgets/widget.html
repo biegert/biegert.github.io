@@ -3,98 +3,105 @@
 <head>
   <meta charset="UTF-8">
   <title>Embedded Widget</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    html, body { margin: 0; padding: 0; }
-    .widget {
-      max-width: 400px;
-      border: 1px solid #ddd;
-      /* Top corners not rounded, bottom corners rounded */
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
-      border-bottom-left-radius: 8px;
-      border-bottom-right-radius: 8px;
-      overflow: hidden;
-      font-family: Arial, sans-serif;
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .widget-container {
+      max-width: 400px; background: #fff; border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1); overflow: hidden; margin: 0 auto;
     }
-    .color-band {
-      height: 8px;
-      width: 100%;
+    .widget-header { background: #009688; color: #fff; padding: 10px; display: flex; justify-content: space-between; }
+    .widget-body { padding: 10px; }
+    .widget-title { font-size: 20px; font-weight: bold; margin-bottom: 5px; }
+    .widget-description { color: gray; font-size: 14px; margin-bottom: 10px; }
+    .tab-nav { display: flex; border-bottom: 1px solid #ddd; }
+    .tab-nav button {
+      flex: 1; padding: 8px; border: none; background: none; cursor: pointer; font-weight: bold;
     }
-    .widget-content {
-      padding: 15px;
-    }
-    .widget-title {
-      font-size: 1.4rem;
-      margin-bottom: 10px;
-      font-weight: bold;
-    }
-    .widget-section {
-      margin-bottom: 15px;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 10px;
-    }
-    .widget-section:last-child {
-      border-bottom: none;
-    }
-    .widget-section-title {
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-    .widget-section-content {
-      margin-left: 10px;
-    }
+    .tab-nav button.active { border-bottom: 2px solid #007BFF; color: #007BFF; }
+    .tab-content { padding: 10px 0; }
+    .tab-heading { color: gray; font-size: 14px; margin-bottom: 5px; }
+    .tab-text { font-weight: bold; font-size: 16px; }
+    .optional-section { border-top: 1px solid #ddd; padding-top: 10px; margin-top: 10px; }
+    .optional-heading { font-weight: bold; margin-bottom: 5px; }
+    .optional-text { color: gray; }
   </style>
 </head>
 <body>
-  <div class="widget" id="widget">
-    <div class="color-band" id="colorBand"></div>
-    <div class="widget-content">
-      <div class="widget-title" id="widgetTitle">Summary Box</div>
-      <div id="widgetSections"></div>
+<div class="widget-container">
+  <div class="widget-header">
+    <div id="widgetCategory">Category</div>
+    <div id="widgetDepartment">Department</div>
+  </div>
+  <div class="widget-body">
+    <div class="widget-title" id="widgetTitle">Procedure Title</div>
+    <div class="widget-description" id="widgetDescription">Description</div>
+    <div class="tab-nav" id="widgetTabNav">
+      <button class="active" data-tab="1" id="widgetTab1">Tab1</button>
+      <button data-tab="2" id="widgetTab2">Tab2</button>
+      <button data-tab="3" id="widgetTab3">Tab3</button>
+      <button data-tab="4" id="widgetTab4">Tab4</button>
+    </div>
+    <div class="tab-content" id="widgetTabContent">
+      <div class="tab-heading" id="widgetTabHeading">Heading</div>
+      <div class="tab-text" id="widgetTabText">Content</div>
+    </div>
+    <div class="optional-section" id="widgetOptional">
+      <div class="optional-heading" id="widgetOptionalHeading">Optional Heading</div>
+      <div class="optional-text" id="widgetOptionalText">Optional Content</div>
     </div>
   </div>
-  <script>
-    // Parse URL parameters
-    function getParams() {
-      const params = {};
-      const searchParams = new URLSearchParams(window.location.search);
-      for (const [key, value] of searchParams.entries()) {
-        params[key] = value;
-      }
-      return params;
-    }
+</div>
+
+<script>
+  // Helper: get URL parameter or empty string.
+  function getParam(param) {
+    const params = new URLSearchParams(window.location.search);
+    return params.get(param) || '';
+  }
+  
+  // Set header and meta information.
+  document.getElementById('widgetCategory').textContent = getParam('cat');
+  document.getElementById('widgetDepartment').textContent = getParam('dept');
+  document.getElementById('widgetTitle').textContent = getParam('title');
+  document.getElementById('widgetDescription').textContent = getParam('desc');
+  
+  // Set tab names.
+  document.getElementById('widgetTab1').textContent = getParam('tab1_name') || 'Tab1';
+  document.getElementById('widgetTab2').textContent = getParam('tab2_name') || 'Tab2';
+  document.getElementById('widgetTab3').textContent = getParam('tab3_name') || 'Tab3';
+  document.getElementById('widgetTab4').textContent = getParam('tab4_name') || 'Tab4';
+  
+  // Function to load tab content.
+  function loadTab(tabNumber) {
+    document.querySelectorAll('.tab-nav button').forEach(btn => btn.classList.remove('active'));
+    document.getElementById('widgetTab' + tabNumber).classList.add('active');
     
-    const params = getParams();
-    const widgetTitle = document.getElementById("widgetTitle");
-    widgetTitle.textContent = params.surgeryName || "Summary Box";
-    
-    const colorBand = document.getElementById("colorBand");
-    const color = params.colorBand || "#007bff";
-    colorBand.style.backgroundColor = color;
-    
-    const widgetSections = document.getElementById("widgetSections");
-    const sectionCount = parseInt(params.sectionCount, 10) || 0;
-    
-    for (let i = 0; i < sectionCount; i++) {
-      const sectionTitle = params[`sectionTitle${i}`] || `Section ${i+1}`;
-      const sectionContent = params[`sectionContent${i}`] || "";
-      
-      const sectionDiv = document.createElement("div");
-      sectionDiv.className = "widget-section";
-      
-      const titleDiv = document.createElement("div");
-      titleDiv.className = "widget-section-title";
-      titleDiv.textContent = sectionTitle;
-      
-      const contentDiv = document.createElement("div");
-      contentDiv.className = "widget-section-content";
-      contentDiv.textContent = sectionContent;
-      
-      sectionDiv.appendChild(titleDiv);
-      sectionDiv.appendChild(contentDiv);
-      widgetSections.appendChild(sectionDiv);
-    }
-  </script>
+    const heading = getParam('tab' + tabNumber + '_heading');
+    const content = getParam('tab' + tabNumber + '_content');
+    document.getElementById('widgetTabHeading').textContent = heading;
+    document.getElementById('widgetTabText').textContent = content;
+  }
+  
+  // Default active tab: 1.
+  loadTab(1);
+  
+  // Change active tab on click.
+  document.querySelectorAll('.tab-nav button').forEach(button => {
+    button.addEventListener('click', function() {
+      const tab = this.getAttribute('data-tab');
+      loadTab(tab);
+    });
+  });
+  
+  // Optional section.
+  const optHeading = getParam('opt_heading');
+  const optContent = getParam('opt_content');
+  if(optHeading || optContent) {
+    document.getElementById('widgetOptionalHeading').textContent = optHeading;
+    document.getElementById('widgetOptionalText').textContent = optContent;
+  } else {
+    document.getElementById('widgetOptional').style.display = 'none';
+  }
+</script>
 </body>
 </html>
