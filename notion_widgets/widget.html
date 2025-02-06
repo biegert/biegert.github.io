@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Embedded Widget</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body { margin: 0; padding: 0; }
+    .widget {
+      max-width: 400px;
+      border: 1px solid #ddd;
+      /* Top corners not rounded, bottom corners rounded */
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+    .color-band {
+      height: 8px;
+      width: 100%;
+    }
+    .widget-content {
+      padding: 15px;
+    }
+    .widget-title {
+      font-size: 1.4rem;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+    .widget-section {
+      margin-bottom: 15px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+    }
+    .widget-section:last-child {
+      border-bottom: none;
+    }
+    .widget-section-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .widget-section-content {
+      margin-left: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="widget" id="widget">
+    <div class="color-band" id="colorBand"></div>
+    <div class="widget-content">
+      <div class="widget-title" id="widgetTitle">Summary Box</div>
+      <div id="widgetSections"></div>
+    </div>
+  </div>
+  <script>
+    // Parse URL parameters
+    function getParams() {
+      const params = {};
+      const searchParams = new URLSearchParams(window.location.search);
+      for (const [key, value] of searchParams.entries()) {
+        params[key] = value;
+      }
+      return params;
+    }
+    
+    const params = getParams();
+    const widgetTitle = document.getElementById("widgetTitle");
+    widgetTitle.textContent = params.surgeryName || "Summary Box";
+    
+    const colorBand = document.getElementById("colorBand");
+    const color = params.colorBand || "#007bff";
+    colorBand.style.backgroundColor = color;
+    
+    const widgetSections = document.getElementById("widgetSections");
+    const sectionCount = parseInt(params.sectionCount, 10) || 0;
+    
+    for (let i = 0; i < sectionCount; i++) {
+      const sectionTitle = params[`sectionTitle${i}`] || `Section ${i+1}`;
+      const sectionContent = params[`sectionContent${i}`] || "";
+      
+      const sectionDiv = document.createElement("div");
+      sectionDiv.className = "widget-section";
+      
+      const titleDiv = document.createElement("div");
+      titleDiv.className = "widget-section-title";
+      titleDiv.textContent = sectionTitle;
+      
+      const contentDiv = document.createElement("div");
+      contentDiv.className = "widget-section-content";
+      contentDiv.textContent = sectionContent;
+      
+      sectionDiv.appendChild(titleDiv);
+      sectionDiv.appendChild(contentDiv);
+      widgetSections.appendChild(sectionDiv);
+    }
+  </script>
+</body>
+</html>
