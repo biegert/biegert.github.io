@@ -38,7 +38,7 @@ button {
   border: none;
   border-radius: 4px;
   background: #007BFF;
-  color: #fff;
+  color: #000000;
   cursor: pointer;
 }
 button.remove {
