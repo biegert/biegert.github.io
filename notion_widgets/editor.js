@@ -269,7 +269,7 @@ document.getElementById("loadWidget").addEventListener("click", () => {
     document.getElementById("description").value = params.get("desc") || "";
     document.getElementById("headingColor").value = params.get("headColor") || "#009688";
 
-    // Parse and update tabs.
+    // Parse and update tabs
     const parsedTabs = JSON.parse(params.get("tabs") || "[]");
     tabs = [];
     tabCounter = 0;
