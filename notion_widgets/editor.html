@@ -4,183 +4,355 @@
   <meta charset="UTF-8">
   <title>Widget Editor</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 20px; }
+    body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 20px; }
+    h2 { margin-bottom: 10px; }
     .container { display: flex; gap: 20px; }
-    .editor, .preview { flex: 1; }
-    input[type="text"], textarea { width: 100%; padding: 5px; margin-bottom: 10px; }
-    label { font-weight: bold; display: block; margin-top: 10px; }
-    .preview-container {
-      max-width: 400px; background: #fff; border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1); overflow: hidden;
-    }
-    /* Widget styles for preview */
-    .widget-header { background: #009688; color: #fff; padding: 10px; display: flex; justify-content: space-between; }
+    .editor, .preview { background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); flex: 1; }
+    .section { margin-bottom: 20px; }
+    label { font-weight: bold; display: block; margin: 8px 0 4px; }
+    input[type="text"], textarea, select { width: 100%; padding: 6px; margin-bottom: 8px; border: 1px solid #ccc; border-radius: 4px; }
+    button { padding: 6px 10px; margin: 5px 0; border: none; border-radius: 4px; background: #007BFF; color: #fff; cursor: pointer; }
+    button.remove { background: #D32F2F; }
+    .small-btn { font-size: 12px; padding: 4px 8px; }
+    .card { max-width: 400px; background: #fff; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); overflow: hidden; }
+    .widget-header { padding: 10px; display: flex; justify-content: space-between; color: #fff; }
     .widget-body { padding: 10px; }
     .widget-title { font-size: 20px; font-weight: bold; margin-bottom: 5px; }
     .widget-description { color: gray; font-size: 14px; margin-bottom: 10px; }
     .tab-nav { display: flex; border-bottom: 1px solid #ddd; }
-    .tab-nav button {
-      flex: 1; padding: 8px; border: none; background: none; cursor: pointer; font-weight: bold;
-    }
+    .tab-nav button { flex: 1; padding: 8px; background: none; border: none; cursor: pointer; font-weight: bold; }
     .tab-nav button.active { border-bottom: 2px solid #007BFF; color: #007BFF; }
     .tab-content { padding: 10px 0; }
-    .tab-heading { color: gray; font-size: 14px; margin-bottom: 5px; }
-    .tab-text { font-weight: bold; font-size: 16px; }
+    .row { margin-bottom: 10px; padding: 5px; border: 1px solid #eee; border-radius: 4px; }
     .optional-section { border-top: 1px solid #ddd; padding-top: 10px; margin-top: 10px; }
-    .optional-heading { font-weight: bold; margin-bottom: 5px; }
-    .optional-text { color: gray; }
   </style>
 </head>
 <body>
-
-<h2>Widget Editor</h2>
-<div class="container">
-  <div class="editor">
-    <label for="category">Category (e.g., Operationsverfahren):</label>
-    <input type="text" id="category" placeholder="Operationsverfahren" value="Operationsverfahren">
-    
-    <label for="department">Department (e.g., Abteilung Gynäkologie):</label>
-    <input type="text" id="department" placeholder="Abteilung Gynäkologie" value="Abteilung Gynäkologie">
-    
-    <label for="title">Procedure Title:</label>
-    <input type="text" id="title" placeholder="Procedure Title" value="Cholecystectomy">
-    
-    <label for="description">Description:</label>
-    <textarea id="description" rows="2" placeholder="Short description">Hüft-TEP.</textarea>
-    
-    <h3>Tabs</h3>
-    <!-- Tab 1 -->
-    <label for="tab1_name">Tab 1 Name (Active):</label>
-    <input type="text" id="tab1_name" placeholder="Anästhesie" value="Anästhesie">
-    <label for="tab1_heading">Tab 1 Heading:</label>
-    <input type="text" id="tab1_heading" placeholder="Overview" value="Overview">
-    <label for="tab1_content">Tab 1 Content:</label>
-    <textarea id="tab1_content" rows="2" placeholder="Content for Anästhesie">Details regarding anesthesia protocols.</textarea>
-    
-    <!-- Tab 2 -->
-    <label for="tab2_name">Tab 2 Name:</label>
-    <input type="text" id="tab2_name" placeholder="Antibiose" value="Antibiose">
-    <label for="tab2_heading">Tab 2 Heading:</label>
-    <input type="text" id="tab2_heading" placeholder="Antibiotic Protocol" value="Antibiotic Protocol">
-    <label for="tab2_content">Tab 2 Content:</label>
-    <textarea id="tab2_content" rows="2" placeholder="Content for Antibiose">Preoperative antibiotic guidelines.</textarea>
-    
-    <!-- Tab 3 -->
-    <label for="tab3_name">Tab 3 Name:</label>
-    <input type="text" id="tab3_name" placeholder="OP-Tisch" value="OP-Tisch">
-    <label for="tab3_heading">Tab 3 Heading:</label>
-    <input type="text" id="tab3_heading" placeholder="Operating Table" value="Operating Table">
-    <label for="tab3_content">Tab 3 Content:</label>
-    <textarea id="tab3_content" rows="2" placeholder="Content for OP-Tisch">Setup instructions for the operating table.</textarea>
-    
-    <!-- Tab 4 -->
-    <label for="tab4_name">Tab 4 Name:</label>
-    <input type="text" id="tab4_name" placeholder="Lagerung" value="Lagerung">
-    <label for="tab4_heading">Tab 4 Heading:</label>
-    <input type="text" id="tab4_heading" placeholder="Positioning" value="Positioning">
-    <label for="tab4_content">Tab 4 Content:</label>
-    <textarea id="tab4_content" rows="2" placeholder="Content for Lagerung">Patient positioning instructions.</textarea>
-    
-    <h3>Optional Section</h3>
-    <label for="optional_heading">Optional Heading:</label>
-    <input type="text" id="optional_heading" placeholder="Additional Info" value="Additional Info">
-    <label for="optional_content">Optional Content:</label>
-    <textarea id="optional_content" rows="2" placeholder="Optional details">Further instructions or warnings.</textarea>
-    
-    <button id="generateLink">Generate Embed Link</button>
-    <div id="embedLinkContainer" style="margin-top: 10px;"></div>
-  </div>
+  <h2>Widget Editor</h2>
+  <div class="container">
+    <div class="editor">
+      <div class="section">
+        <label for="category">Category</label>
+        <input type="text" id="category" value="Operationsverfahren">
   
-  <div class="preview">
-    <h3>Live Preview</h3>
-    <div class="preview-container" id="previewContainer">
-      <div class="widget-header">
-        <div id="previewCategory">Operationsverfahren</div>
-        <div id="previewDepartment">Abteilung Gynäkologie</div>
+        <label for="department">Department</label>
+        <input type="text" id="department" value="Abteilung Gynäkologie">
+  
+        <label for="title">Procedure Title</label>
+        <input type="text" id="title" value="Cholecystectomy">
+  
+        <label for="description">Description</label>
+        <textarea id="description" rows="2">Standard laparoscopic cholecystectomy procedure.</textarea>
+  
+        <label for="headingColor">Header Color</label>
+        <select id="headingColor">
+          <option value="#009688">Teal</option>
+          <option value="#007BFF">Blue</option>
+          <option value="#D32F2F">Red</option>
+          <option value="#FF9800">Orange</option>
+        </select>
       </div>
-      <div class="widget-body">
-        <div class="widget-title" id="previewTitle">Cholecystectomy</div>
-        <div class="widget-description" id="previewDescription">Standard laparoscopic cholecystectomy procedure.</div>
-        <div class="tab-nav" id="previewTabNav">
-          <button class="active" data-tab="1" id="previewTab1">Anästhesie</button>
-          <button data-tab="2" id="previewTab2">Antibiose</button>
-          <button data-tab="3" id="previewTab3">OP-Tisch</button>
-          <button data-tab="4" id="previewTab4">Lagerung</button>
+  
+      <div class="section">
+        <h3>Tabs (1–4)</h3>
+        <div id="tabsContainer"></div>
+        <button id="addTab">Add Tab</button>
+      </div>
+  
+      <div class="section">
+        <h3>Optional Sections (0–4)</h3>
+        <div id="optContainer"></div>
+        <button id="addOpt">Add Optional Section</button>
+      </div>
+  
+      <button id="generateLink">Generate Embed Link</button>
+      <div id="embedLinkContainer" style="margin-top: 10px;"></div>
+    </div>
+  
+    <div class="preview">
+      <h3>Live Preview</h3>
+      <div class="card" id="previewCard">
+        <div class="widget-header" id="previewHeader" style="background: #009688;">
+          <div id="previewCategory">Operationsverfahren</div>
+          <div id="previewDepartment">Abteilung Gynäkologie</div>
         </div>
-        <div class="tab-content" id="previewTabContent">
-          <div class="tab-heading" id="previewTabHeading">Overview</div>
-          <div class="tab-text" id="previewTabText">Details regarding anesthesia protocols.</div>
-        </div>
-        <div class="optional-section" id="previewOptional">
-          <div class="optional-heading" id="previewOptionalHeading">Additional Info</div>
-          <div class="optional-text" id="previewOptionalText">Further instructions or warnings.</div>
+        <div class="widget-body">
+          <div class="widget-title" id="previewTitle">Cholecystectomy</div>
+          <div class="widget-description" id="previewDescription">Standard laparoscopic cholecystectomy procedure.</div>
+          <div class="tab-nav" id="previewTabNav"></div>
+          <div class="tab-content" id="previewTabContent"></div>
+          <div class="optional-section" id="previewOptional"></div>
         </div>
       </div>
     </div>
   </div>
-</div>
-
-<script>
-  // Update the live preview based on form fields.
-  function updatePreview() {
-    document.getElementById('previewCategory').textContent = document.getElementById('category').value;
-    document.getElementById('previewDepartment').textContent = document.getElementById('department').value;
-    document.getElementById('previewTitle').textContent = document.getElementById('title').value;
-    document.getElementById('previewDescription').textContent = document.getElementById('description').value;
-    
-    document.getElementById('previewTab1').textContent = document.getElementById('tab1_name').value;
-    document.getElementById('previewTab2').textContent = document.getElementById('tab2_name').value;
-    document.getElementById('previewTab3').textContent = document.getElementById('tab3_name').value;
-    document.getElementById('previewTab4').textContent = document.getElementById('tab4_name').value;
-    
-    // Always show first tab content in preview
-    document.getElementById('previewTabHeading').textContent = document.getElementById('tab1_heading').value;
-    document.getElementById('previewTabText').textContent = document.getElementById('tab1_content').value;
-    
-    document.getElementById('previewOptionalHeading').textContent = document.getElementById('optional_heading').value;
-    document.getElementById('previewOptionalText').textContent = document.getElementById('optional_content').value;
-  }
   
-  // Update preview on input changes.
-  document.querySelectorAll('input, textarea').forEach(el => {
-    el.addEventListener('input', updatePreview);
-  });
+  <script>
+    // Global arrays to hold tab and optional section data in the editor.
+    let tabs = []; // each tab: { id, name, rows: [{id, heading, content}] }
+    let optSections = []; // each optional: { id, heading, content }
+    let tabCounter = 0, optCounter = 0;
+    const maxTabs = 4, minTabs = 1, maxOpts = 4;
   
-  // Generate the embed link with URL parameters.
-  document.getElementById('generateLink').addEventListener('click', function() {
-    const params = new URLSearchParams();
-    params.set('cat', document.getElementById('category').value);
-    params.set('dept', document.getElementById('department').value);
-    params.set('title', document.getElementById('title').value);
-    params.set('desc', document.getElementById('description').value);
-    
-    params.set('tab1_name', document.getElementById('tab1_name').value);
-    params.set('tab1_heading', document.getElementById('tab1_heading').value);
-    params.set('tab1_content', document.getElementById('tab1_content').value);
-    
-    params.set('tab2_name', document.getElementById('tab2_name').value);
-    params.set('tab2_heading', document.getElementById('tab2_heading').value);
-    params.set('tab2_content', document.getElementById('tab2_content').value);
-    
-    params.set('tab3_name', document.getElementById('tab3_name').value);
-    params.set('tab3_heading', document.getElementById('tab3_heading').value);
-    params.set('tab3_content', document.getElementById('tab3_content').value);
-    
-    params.set('tab4_name', document.getElementById('tab4_name').value);
-    params.set('tab4_heading', document.getElementById('tab4_heading').value);
-    params.set('tab4_content', document.getElementById('tab4_content').value);
-    
-    params.set('opt_heading', document.getElementById('optional_heading').value);
-    params.set('opt_content', document.getElementById('optional_content').value);
-    
-    // Build URL to widget.html (adjust path if necessary)
-    const embedUrl = window.location.origin + window.location.pathname.replace('editor.html', 'widget.html') + '?' + params.toString();
-    document.getElementById('embedLinkContainer').innerHTML =
-      `<strong>Embed URL:</strong> <a href="${embedUrl}" target="_blank">${embedUrl}</a>`;
-  });
+    // Create a new tab with one default row.
+    function createTab(name = "Tab " + (tabCounter+1)) {
+      const tabId = tabCounter++;
+      const tab = { id: tabId, name, rows: [] };
+      addRowToTab(tab);
+      tabs.push(tab);
+      renderTabs();
+    }
   
-  updatePreview();
-</script>
-
+    // Add a new row to a given tab object.
+    function addRowToTab(tab, heading = "", content = "") {
+      const rowId = Date.now() + Math.random();
+      tab.rows.push({ id: rowId, heading, content });
+    }
+  
+    // Remove a row from a tab.
+    function removeRowFromTab(tab, rowId) {
+      if(tab.rows.length > 1) {
+        tab.rows = tab.rows.filter(r => r.id !== rowId);
+      }
+    }
+  
+    // Render the tabs section.
+    function renderTabs() {
+      const container = document.getElementById("tabsContainer");
+      container.innerHTML = "";
+      tabs.forEach((tab, tabIndex) => {
+        const tabDiv = document.createElement("div");
+        tabDiv.className = "tab-block";
+        tabDiv.style.border = "1px solid #ccc";
+        tabDiv.style.padding = "10px";
+        tabDiv.style.marginBottom = "10px";
+        tabDiv.dataset.tabId = tab.id;
+  
+        // Tab header row
+        const headerRow = document.createElement("div");
+        headerRow.style.display = "flex";
+        headerRow.style.justifyContent = "space-between";
+  
+        const nameInput = document.createElement("input");
+        nameInput.type = "text";
+        nameInput.value = tab.name;
+        nameInput.style.flex = "1";
+        nameInput.addEventListener("input", () => {
+          tab.name = nameInput.value;
+          updatePreview();
+        });
+        headerRow.appendChild(nameInput);
+  
+        // Remove button if more than minTabs.
+        if(tabs.length > minTabs) {
+          const removeTabBtn = document.createElement("button");
+          removeTabBtn.textContent = "Remove";
+          removeTabBtn.className = "remove small-btn";
+          removeTabBtn.addEventListener("click", () => {
+            tabs = tabs.filter(t => t.id !== tab.id);
+            renderTabs();
+            updatePreview();
+          });
+          headerRow.appendChild(removeTabBtn);
+        }
+  
+        tabDiv.appendChild(headerRow);
+  
+        // Rows container.
+        const rowsContainer = document.createElement("div");
+        rowsContainer.style.marginTop = "10px";
+        tab.rows.forEach(row => {
+          const rowDiv = document.createElement("div");
+          rowDiv.className = "row";
+  
+          const rowHeading = document.createElement("input");
+          rowHeading.type = "text";
+          rowHeading.placeholder = "Row Heading";
+          rowHeading.value = row.heading;
+          rowHeading.addEventListener("input", () => { row.heading = rowHeading.value; updatePreview(); });
+          rowDiv.appendChild(rowHeading);
+  
+          const rowContent = document.createElement("textarea");
+          rowContent.rows = 2;
+          rowContent.placeholder = "Row Content";
+          rowContent.value = row.content;
+          rowContent.addEventListener("input", () => { row.content = rowContent.value; updatePreview(); });
+          rowDiv.appendChild(rowContent);
+  
+          // Remove row button if more than one row.
+          if(tab.rows.length > 1) {
+            const removeRowBtn = document.createElement("button");
+            removeRowBtn.textContent = "Remove Row";
+            removeRowBtn.className = "remove small-btn";
+            removeRowBtn.addEventListener("click", () => {
+              removeRowFromTab(tab, row.id);
+              renderTabs();
+              updatePreview();
+            });
+            rowDiv.appendChild(removeRowBtn);
+          }
+          rowsContainer.appendChild(rowDiv);
+        });
+        tabDiv.appendChild(rowsContainer);
+  
+        const addRowBtn = document.createElement("button");
+        addRowBtn.textContent = "Add Row";
+        addRowBtn.className = "small-btn";
+        addRowBtn.addEventListener("click", () => {
+          addRowToTab(tab);
+          renderTabs();
+          updatePreview();
+        });
+        tabDiv.appendChild(addRowBtn);
+  
+        container.appendChild(tabDiv);
+      });
+  
+      document.getElementById("addTab").disabled = (tabs.length >= maxTabs);
+      updatePreview();
+    }
+  
+    // Render optional sections.
+    function renderOptSections() {
+      const container = document.getElementById("optContainer");
+      container.innerHTML = "";
+      optSections.forEach(opt => {
+        const optDiv = document.createElement("div");
+        optDiv.style.border = "1px solid #ccc";
+        optDiv.style.padding = "10px";
+        optDiv.style.marginBottom = "10px";
+        optDiv.dataset.optId = opt.id;
+  
+        const headingInput = document.createElement("input");
+        headingInput.type = "text";
+        headingInput.placeholder = "Optional Heading";
+        headingInput.value = opt.heading;
+        headingInput.addEventListener("input", () => { opt.heading = headingInput.value; updatePreview(); });
+        optDiv.appendChild(headingInput);
+  
+        const contentInput = document.createElement("textarea");
+        contentInput.rows = 2;
+        contentInput.placeholder = "Optional Content";
+        contentInput.value = opt.content;
+        contentInput.addEventListener("input", () => { opt.content = contentInput.value; updatePreview(); });
+        optDiv.appendChild(contentInput);
+  
+        const removeOptBtn = document.createElement("button");
+        removeOptBtn.textContent = "Remove";
+        removeOptBtn.className = "remove small-btn";
+        removeOptBtn.addEventListener("click", () => {
+          optSections = optSections.filter(o => o.id !== opt.id);
+          renderOptSections();
+          updatePreview();
+        });
+        optDiv.appendChild(removeOptBtn);
+  
+        container.appendChild(optDiv);
+      });
+      document.getElementById("addOpt").disabled = (optSections.length >= maxOpts);
+      updatePreview();
+    }
+  
+    // Initial creation: one tab by default.
+    createTab();
+    renderTabs();
+    renderOptSections();
+  
+    // Optional sections add button.
+    document.getElementById("addOpt").addEventListener("click", () => {
+      const newOpt = { id: optCounter++, heading: "", content: "" };
+      optSections.push(newOpt);
+      renderOptSections();
+    });
+  
+    // Update live preview.
+    function updatePreview() {
+      document.getElementById("previewCategory").textContent = document.getElementById("category").value;
+      document.getElementById("previewDepartment").textContent = document.getElementById("department").value;
+      document.getElementById("previewTitle").textContent = document.getElementById("title").value;
+      document.getElementById("previewDescription").textContent = document.getElementById("description").value;
+      document.getElementById("previewHeader").style.background = document.getElementById("headingColor").value;
+  
+      // Render tab nav (only names)
+      const nav = document.getElementById("previewTabNav");
+      nav.innerHTML = "";
+      tabs.forEach((tab, index) => {
+        const btn = document.createElement("button");
+        btn.textContent = tab.name;
+        btn.className = index === 0 ? "active" : "";
+        btn.addEventListener("click", () => renderTabContent(tab));
+        nav.appendChild(btn);
+      });
+      // Default: show first tab content.
+      if(tabs.length) renderTabContent(tabs[0]);
+  
+      // Render optional sections.
+      const optDiv = document.getElementById("previewOptional");
+      optDiv.innerHTML = "";
+      if(optSections.length > 0) {
+        optSections.forEach(opt => {
+          const h = document.createElement("div");
+          h.style.fontWeight = "bold";
+          h.textContent = opt.heading;
+          const p = document.createElement("div");
+          p.style.color = "gray";
+          p.textContent = opt.content;
+          optDiv.appendChild(h);
+          optDiv.appendChild(p);
+        });
+      }
+    }
+  
+    // Render rows of a given tab in the preview.
+    function renderTabContent(tab) {
+      // Mark active tab.
+      document.querySelectorAll("#previewTabNav button").forEach((btn, idx) => {
+        btn.classList.toggle("active", tabs[idx].id === tab.id);
+      });
+      const contentDiv = document.getElementById("previewTabContent");
+      contentDiv.innerHTML = "";
+      tab.rows.forEach(row => {
+        const h = document.createElement("div");
+        h.style.fontSize = "14px";
+        h.style.color = "gray";
+        h.textContent = row.heading;
+        const p = document.createElement("div");
+        p.style.fontWeight = "bold";
+        p.style.fontSize = "16px";
+        p.textContent = row.content;
+        contentDiv.appendChild(h);
+        contentDiv.appendChild(p);
+      });
+    }
+  
+    // Listen to header/color changes.
+    document.querySelectorAll("#category, #department, #title, #description, #headingColor")
+      .forEach(el => el.addEventListener("input", updatePreview));
+  
+    // Generate embed link.
+    document.getElementById("generateLink").addEventListener("click", () => {
+      const params = new URLSearchParams();
+      params.set("cat", document.getElementById("category").value);
+      params.set("dept", document.getElementById("department").value);
+      params.set("title", document.getElementById("title").value);
+      params.set("desc", document.getElementById("description").value);
+      params.set("headColor", document.getElementById("headingColor").value);
+      // Encode tabs array as JSON.
+      const tabsData = tabs.map(tab => ({
+        name: tab.name,
+        rows: tab.rows.map(r => ({ heading: r.heading, content: r.content }))
+      }));
+      params.set("tabs", JSON.stringify(tabsData));
+  
+      // Encode optional sections.
+      params.set("opt_sections", JSON.stringify(optSections.map(opt => ({ heading: opt.heading, content: opt.content }))));
+  
+      const embedUrl = window.location.origin + window.location.pathname.replace('editor.html', 'widget.html') + "?" + params.toString();
+      document.getElementById("embedLinkContainer").innerHTML =
+        `<strong>Embed URL:</strong> <a href="${embedUrl}" target="_blank">${embedUrl}</a>`;
+    });
+  
+    updatePreview();
+  </script>
 </body>
 </html>
