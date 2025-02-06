@@ -5,7 +5,6 @@ body {
   margin: 0;
   padding: 20px;
 }
-
 .container {
   max-width: 800px;
   margin: 0 auto;
@@ -17,7 +16,6 @@ body {
 /* Card style for editor & preview */
 .card {
   background: #fff;
-  border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   padding: 20px;
 }
@@ -26,23 +24,22 @@ body {
 .editor h2 {
   margin-bottom: 15px;
 }
-
 .form-group {
   margin-bottom: 15px;
 }
-
 label {
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
 }
-
 input[type="text"],
-textarea {
+textarea,
+select {
   width: 100%;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  box-sizing: border-box;
 }
 
 /* Button styling */
@@ -56,7 +53,6 @@ textarea {
   border-radius: 4px;
   cursor: pointer;
 }
-
 .btn:hover {
   background: #0056b3;
 }
@@ -70,7 +66,6 @@ textarea {
   position: relative;
   background: #fafafa;
 }
-
 .remove-section {
   position: absolute;
   top: 5px;
@@ -87,23 +82,42 @@ textarea {
   cursor: pointer;
 }
 
-/* Preview styling */
-.preview-header {
-  font-size: 1.5rem;
+/* Widget Preview styling */
+.widget-preview {
+  max-width: 400px;
+  margin: 0 auto;
+  border: 1px solid #ddd;
+  /* Top corners not rounded, bottom corners rounded */
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  overflow: hidden;
+}
+.color-band {
+  height: 8px;
+  width: 100%;
+}
+.widget-content {
+  padding: 15px;
+}
+.widget-title {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
   font-weight: bold;
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 10px;
-  margin-bottom: 10px;
 }
-
 .preview-section {
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
 }
-
+.preview-section:last-child {
+  border-bottom: none;
+}
 .preview-section-title {
   font-weight: bold;
+  margin-bottom: 5px;
 }
-
 .preview-section-content {
   margin-left: 10px;
 }
