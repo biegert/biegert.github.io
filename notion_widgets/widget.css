@@ -1,3 +1,8 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
+  margin: 20px;
+}
 /* Shared widget styling (applies both to the preview and actual widget) */
 .widget-container,
 .card {
