@@ -9,12 +9,14 @@
   <div class="container">
     <div class="editor card">
       <h2>Create Your Summary Box</h2>
+      
       <div class="form-group">
-        <label for="surgeryName">Surgery Name:</label>
-        <input type="text" id="surgeryName" placeholder="Enter surgery name">
+        <label for="surgeryName">Title:</label>
+        <input type="text" id="surgeryName" placeholder="Enter title">
       </div>
+
       <div class="form-group">
-        <label for="colorBandSelect">Select Color Band:</label>
+        <label for="colorBandSelect">Header Color:</label>
         <select id="colorBandSelect">
           <option value="#007bff">Blue</option>
           <option value="#28a745">Green</option>
@@ -22,22 +24,35 @@
           <option value="#dc3545">Red</option>
         </select>
       </div>
+
       <div id="sectionsContainer">
         <!-- Dynamic sections will be added here -->
       </div>
+
       <button id="addSectionBtn" class="btn">Add Section</button>
       <button id="generateLink" class="btn">Generate Embed Link</button>
     </div>
-    <div class="preview card widget-preview">
-      <div class="color-band" id="previewColorBand"></div>
-      <div class="widget-content">
-        <div class="widget-title" id="previewTitle">Summary Box</div>
-        <div id="previewContent">
-          <!-- Live preview of sections -->
+
+    <!-- Live Preview -->
+    <div class="widget-preview">
+      <div class="widget-header" id="previewHeader">
+        <span class="left">Header Left</span>
+        <span class="right">Header Right</span>
+      </div>
+      <div class="widget-body">
+        <h2 id="previewTitle">Title</h2>
+
+        <div class="tabs" id="previewTabs">
+          <!-- Tabs will be dynamically added here -->
+        </div>
+
+        <div class="info-table" id="previewSections">
+          <!-- Sections will be dynamically previewed here -->
         </div>
       </div>
     </div>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
