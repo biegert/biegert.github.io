@@ -3,123 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <title>Embedded Widget</title>
-  <style>
-    body { font-family: Arial, sans-serif; padding: 20px; background: transparent; }
-    .widget-container {
-      max-width: 400px; background: #fff; border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1); overflow: hidden; margin: 0 auto;
-    }
-    .widget-header { padding: 10px; display: flex; justify-content: space-between; color: #fff; }
-    .widget-body { padding: 10px; }
-    .widget-title { font-size: 20px; font-weight: bold; margin-bottom: 5px; }
-    .widget-description { color: gray; font-size: 14px; margin-bottom: 10px; }
-    .tab-nav { display: flex; border-bottom: 1px solid #ddd; }
-    .tab-nav button { flex: 1; padding: 8px; background: none; border: none; cursor: pointer; font-weight: bold; }
-    .tab-nav button.active { border-bottom: 2px solid #007BFF; color: #007BFF; }
-    .tab-content { padding: 10px 0; }
-    .row-heading { color: gray; font-size: 14px; margin-bottom: 2px; }
-    .row-content { font-weight: bold; font-size: 16px; margin-bottom: 8px; }
-    .optional-section { border-top: 1px solid #ddd; padding-top: 10px; margin-top: 10px; }
-  </style>
+  <link rel="stylesheet" href="widget.css">
 </head>
 <body>
-<div class="widget-container">
-  <div class="widget-header" id="widgetHeader">
-    <div id="widgetCategory">Category</div>
-    <div id="widgetDepartment">Department</div>
+  <div class="widget-container">
+    <div class="widget-header" id="widgetHeader">
+      <div id="widgetCategory">Category</div>
+      <div id="widgetDepartment">Department</div>
+    </div>
+    <div class="widget-body">
+      <div class="widget-title" id="widgetTitle">Procedure Title</div>
+      <div class="widget-description" id="widgetDescription">Description</div>
+      <div class="tab-nav" id="widgetTabNav"></div>
+      <div class="tab-content" id="widgetTabContent"></div>
+      <div class="optional-section" id="widgetOptional"></div>
+    </div>
   </div>
-  <div class="widget-body">
-    <div class="widget-title" id="widgetTitle">Procedure Title</div>
-    <div class="widget-description" id="widgetDescription">Description</div>
-    <div class="tab-nav" id="widgetTabNav"></div>
-    <div class="tab-content" id="widgetTabContent"></div>
-    <div class="optional-section" id="widgetOptional"></div>
-  </div>
-</div>
-  
-<script>
-  // Helper: get parameter value.
-  function getParam(param) {
-    const params = new URLSearchParams(window.location.search);
-    return params.get(param) || "";
-  }
-  
-  // Set header/meta.
-  document.getElementById("widgetCategory").textContent = getParam("cat");
-  document.getElementById("widgetDepartment").textContent = getParam("dept");
-  document.getElementById("widgetTitle").textContent = getParam("title");
-  document.getElementById("widgetDescription").textContent = getParam("desc");
-  // Set header background color.
-  document.getElementById("widgetHeader").style.background = getParam("headColor") || "#009688";
-  
-  // Parse tabs data.
-  let tabsData = [];
-  try {
-    tabsData = JSON.parse(getParam("tabs"));
-  } catch(e) {
-    // Fallback default.
-    tabsData = [{
-      name: "Anästhesie",
-      rows: [{ heading: "Overview", content: "Details regarding anesthesia protocols." }]
-    }];
-  }
-  
-  // Build tab nav.
-  const tabNav = document.getElementById("widgetTabNav");
-  tabsData.forEach((tab, index) => {
-    const btn = document.createElement("button");
-    btn.textContent = tab.name;
-    btn.className = index === 0 ? "active" : "";
-    btn.addEventListener("click", () => renderTabContent(index));
-    tabNav.appendChild(btn);
-  });
-  
-  // Render content for a given tab.
-  function renderTabContent(tabIndex) {
-    // Mark active button.
-    document.querySelectorAll("#widgetTabNav button").forEach((btn, idx) => {
-      btn.classList.toggle("active", idx === tabIndex);
-    });
-    const contentDiv = document.getElementById("widgetTabContent");
-    contentDiv.innerHTML = "";
-    const rows = tabsData[tabIndex].rows;
-    rows.forEach(row => {
-      const h = document.createElement("div");
-      h.className = "row-heading";
-      h.textContent = row.heading;
-      const p = document.createElement("div");
-      p.className = "row-content";
-      p.textContent = row.content;
-      contentDiv.appendChild(h);
-      contentDiv.appendChild(p);
-    });
-  }
-  
-  // Default: render first tab.
-  if(tabsData.length) renderTabContent(0);
-  
-  // Parse optional sections.
-  let optSections = [];
-  try {
-    optSections = JSON.parse(getParam("opt_sections"));
-  } catch(e) {
-    optSections = [];
-  }
-  const optDiv = document.getElementById("widgetOptional");
-  if(optSections.length > 0) {
-    optSections.forEach(opt => {
-      const h = document.createElement("div");
-      h.style.fontWeight = "bold";
-      h.textContent = opt.heading;
-      const p = document.createElement("div");
-      p.style.color = "gray";
-      p.textContent = opt.content;
-      optDiv.appendChild(h);
-      optDiv.appendChild(p);
-    });
-  } else {
-    optDiv.style.display = "none";
-  }
-</script>
+  <script src="widget.js"></script>
 </body>
 </html>
