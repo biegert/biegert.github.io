@@ -1,0 +1,64 @@
+/* Shared widget styling (applies both to the preview and actual widget) */
+.widget-container,
+.card {
+  max-width: 400px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  overflow: hidden;
+  margin: 0 auto; /* centers the widget */
+}
+.widget-header {
+  background: #009688;
+  color: #fff;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+.widget-body {
+  padding: 10px;
+}
+.widget-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.widget-description {
+  color: gray;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+.tab-nav {
+  display: flex;
+  border-bottom: 1px solid #ddd;
+}
+.tab-nav button {
+  flex: 1;
+  padding: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+.tab-nav button.active {
+  border-bottom: 2px solid #007BFF;
+  color: #007BFF;
+}
+.tab-content {
+  padding: 10px 0;
+}
+.row-heading {
+  color: gray;
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+.row-content {
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+.optional-section {
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+  margin-top: 10px;
+}
