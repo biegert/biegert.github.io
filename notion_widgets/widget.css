@@ -1,6 +1,6 @@
 body {
   font-family: Arial, sans-serif;
-  background: #f4f4f4;
+  background: transparent;
   margin: 20px;
 }
 /* Shared widget styling (applies both to the preview and actual widget) */
