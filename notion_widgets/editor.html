@@ -2,57 +2,179 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Summary Box Editor</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Widget Editor</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    .container { display: flex; gap: 20px; }
+    .editor, .preview { flex: 1; }
+    input[type="text"], textarea { width: 100%; padding: 5px; margin-bottom: 10px; }
+    label { font-weight: bold; display: block; margin-top: 10px; }
+    .preview-container {
+      max-width: 400px; background: #fff; border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1); overflow: hidden;
+    }
+    /* Widget styles for preview */
+    .widget-header { background: #009688; color: #fff; padding: 10px; display: flex; justify-content: space-between; }
+    .widget-body { padding: 10px; }
+    .widget-title { font-size: 20px; font-weight: bold; margin-bottom: 5px; }
+    .widget-description { color: gray; font-size: 14px; margin-bottom: 10px; }
+    .tab-nav { display: flex; border-bottom: 1px solid #ddd; }
+    .tab-nav button {
+      flex: 1; padding: 8px; border: none; background: none; cursor: pointer; font-weight: bold;
+    }
+    .tab-nav button.active { border-bottom: 2px solid #007BFF; color: #007BFF; }
+    .tab-content { padding: 10px 0; }
+    .tab-heading { color: gray; font-size: 14px; margin-bottom: 5px; }
+    .tab-text { font-weight: bold; font-size: 16px; }
+    .optional-section { border-top: 1px solid #ddd; padding-top: 10px; margin-top: 10px; }
+    .optional-heading { font-weight: bold; margin-bottom: 5px; }
+    .optional-text { color: gray; }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <div class="editor card">
-      <h2>Create Your Summary Box</h2>
-      
-      <div class="form-group">
-        <label for="surgeryName">Title:</label>
-        <input type="text" id="surgeryName" placeholder="Enter title">
-      </div>
 
-      <div class="form-group">
-        <label for="colorBandSelect">Header Color:</label>
-        <select id="colorBandSelect">
-          <option value="#007bff">Blue</option>
-          <option value="#28a745">Green</option>
-          <option value="#ffc107">Yellow</option>
-          <option value="#dc3545">Red</option>
-        </select>
-      </div>
-
-      <div id="sectionsContainer">
-        <!-- Dynamic sections will be added here -->
-      </div>
-
-      <button id="addSectionBtn" class="btn">Add Section</button>
-      <button id="generateLink" class="btn">Generate Embed Link</button>
-    </div>
-
-    <!-- Live Preview -->
-    <div class="widget-preview">
-      <div class="widget-header" id="previewHeader">
-        <span class="left">Header Left</span>
-        <span class="right">Header Right</span>
+<h2>Widget Editor</h2>
+<div class="container">
+  <div class="editor">
+    <label for="category">Category (e.g., Operationsverfahren):</label>
+    <input type="text" id="category" placeholder="Operationsverfahren" value="Operationsverfahren">
+    
+    <label for="department">Department (e.g., Abteilung Gynäkologie):</label>
+    <input type="text" id="department" placeholder="Abteilung Gynäkologie" value="Abteilung Gynäkologie">
+    
+    <label for="title">Procedure Title:</label>
+    <input type="text" id="title" placeholder="Procedure Title" value="Cholecystectomy">
+    
+    <label for="description">Description:</label>
+    <textarea id="description" rows="2" placeholder="Short description">Standard laparoscopic cholecystectomy procedure.</textarea>
+    
+    <h3>Tabs</h3>
+    <!-- Tab 1 -->
+    <label for="tab1_name">Tab 1 Name (Active):</label>
+    <input type="text" id="tab1_name" placeholder="Anästhesie" value="Anästhesie">
+    <label for="tab1_heading">Tab 1 Heading:</label>
+    <input type="text" id="tab1_heading" placeholder="Overview" value="Overview">
+    <label for="tab1_content">Tab 1 Content:</label>
+    <textarea id="tab1_content" rows="2" placeholder="Content for Anästhesie">Details regarding anesthesia protocols.</textarea>
+    
+    <!-- Tab 2 -->
+    <label for="tab2_name">Tab 2 Name:</label>
+    <input type="text" id="tab2_name" placeholder="Antibiose" value="Antibiose">
+    <label for="tab2_heading">Tab 2 Heading:</label>
+    <input type="text" id="tab2_heading" placeholder="Antibiotic Protocol" value="Antibiotic Protocol">
+    <label for="tab2_content">Tab 2 Content:</label>
+    <textarea id="tab2_content" rows="2" placeholder="Content for Antibiose">Preoperative antibiotic guidelines.</textarea>
+    
+    <!-- Tab 3 -->
+    <label for="tab3_name">Tab 3 Name:</label>
+    <input type="text" id="tab3_name" placeholder="OP-Tisch" value="OP-Tisch">
+    <label for="tab3_heading">Tab 3 Heading:</label>
+    <input type="text" id="tab3_heading" placeholder="Operating Table" value="Operating Table">
+    <label for="tab3_content">Tab 3 Content:</label>
+    <textarea id="tab3_content" rows="2" placeholder="Content for OP-Tisch">Setup instructions for the operating table.</textarea>
+    
+    <!-- Tab 4 -->
+    <label for="tab4_name">Tab 4 Name:</label>
+    <input type="text" id="tab4_name" placeholder="Lagerung" value="Lagerung">
+    <label for="tab4_heading">Tab 4 Heading:</label>
+    <input type="text" id="tab4_heading" placeholder="Positioning" value="Positioning">
+    <label for="tab4_content">Tab 4 Content:</label>
+    <textarea id="tab4_content" rows="2" placeholder="Content for Lagerung">Patient positioning instructions.</textarea>
+    
+    <h3>Optional Section</h3>
+    <label for="optional_heading">Optional Heading:</label>
+    <input type="text" id="optional_heading" placeholder="Additional Info" value="Additional Info">
+    <label for="optional_content">Optional Content:</label>
+    <textarea id="optional_content" rows="2" placeholder="Optional details">Further instructions or warnings.</textarea>
+    
+    <button id="generateLink">Generate Embed Link</button>
+    <div id="embedLinkContainer" style="margin-top: 10px;"></div>
+  </div>
+  
+  <div class="preview">
+    <h3>Live Preview</h3>
+    <div class="preview-container" id="previewContainer">
+      <div class="widget-header">
+        <div id="previewCategory">Operationsverfahren</div>
+        <div id="previewDepartment">Abteilung Gynäkologie</div>
       </div>
       <div class="widget-body">
-        <h2 id="previewTitle">Title</h2>
-
-        <div class="tabs" id="previewTabs">
-          <!-- Tabs will be dynamically added here -->
+        <div class="widget-title" id="previewTitle">Cholecystectomy</div>
+        <div class="widget-description" id="previewDescription">Standard laparoscopic cholecystectomy procedure.</div>
+        <div class="tab-nav" id="previewTabNav">
+          <button class="active" data-tab="1" id="previewTab1">Anästhesie</button>
+          <button data-tab="2" id="previewTab2">Antibiose</button>
+          <button data-tab="3" id="previewTab3">OP-Tisch</button>
+          <button data-tab="4" id="previewTab4">Lagerung</button>
         </div>
-
-        <div class="info-table" id="previewSections">
-          <!-- Sections will be dynamically previewed here -->
+        <div class="tab-content" id="previewTabContent">
+          <div class="tab-heading" id="previewTabHeading">Overview</div>
+          <div class="tab-text" id="previewTabText">Details regarding anesthesia protocols.</div>
+        </div>
+        <div class="optional-section" id="previewOptional">
+          <div class="optional-heading" id="previewOptionalHeading">Additional Info</div>
+          <div class="optional-text" id="previewOptionalText">Further instructions or warnings.</div>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <script src="script.js"></script>
-</body>
-</html>
+<script>
+  // Update the live preview based on form fields.
+  function updatePreview() {
+    document.getElementById('previewCategory').textContent = document.getElementById('category').value;
+    document.getElementById('previewDepartment').textContent = document.getElementById('department').value;
+    document.getElementById('previewTitle').textContent = document.getElementById('title').value;
+    document.getElementById('previewDescription').textContent = document.getElementById('description').value;
+    
+    document.getElementById('previewTab1').textContent = document.getElementById('tab1_name').value;
+    document.getElementById('previewTab2').textContent = document.getElementById('tab2_name').value;
+    document.getElementById('previewTab3').textContent = document.getElementById('tab3_name').value;
+    document.getElementById('previewTab4').textContent = document.getElementById('tab4_name').value;
+    
+    // Always show first tab content in preview
+    document.getElementById('previewTabHeading').textContent = document.getElementById('tab1_heading').value;
+    document.getElementById('previewTabText').textContent = document.getElementById('tab1_content').value;
+    
+    document.getElementById('previewOptionalHeading').textContent = document.getElementById('optional_heading').value;
+    document.getElementById('previewOptionalText').textContent = document.getElementById('optional_content').value;
+  }
+  
+  // Update preview on input changes.
+  document.querySelectorAll('input, textarea').forEach(el => {
+    el.addEventListener('input', updatePreview);
+  });
+  
+  // Generate the embed link with URL parameters.
+  document.getElementById('generateLink').addEventListener('click', function() {
+    const params = new URLSearchParams();
+    params.set('cat', document.getElementById('category').value);
+    params.set('dept', document.getElementById('department').value);
+    params.set('title', document.getElementById('title').value);
+    params.set('desc', document.getElementById('description').value);
+    
+    params.set('tab1_name', document.getElementById('tab1_name').value);
+    params.set('tab1_heading', document.getElementById('tab1_heading').value);
+    params.set('tab1_content', document.getElementById('tab1_content').value);
+    
+    params.set('tab2_name', document.getElementById('tab2_name').value);
+    params.set('tab2_heading', document.getElementById('tab2_heading').value);
+    params.set('tab2_content', document.getElementById('tab2_content').value);
+    
+    params.set('tab3_name', document.getElementById('tab3_name').value);
+    params.set('tab3_heading', document.getElementById('tab3_heading').value);
+    params.set('tab3_content', document.getElementById('tab3_content').value);
+    
+    params.set('tab4_name', document.getElementById('tab4_name').value);
+    params.set('tab4_heading', document.getElementById('tab4_heading').value);
+    params.set('tab4_content', document.getElementById('tab4_content').value);
+    
+    params.set('opt_heading', document.getElementById('optional_heading').value);
+    params.set('opt_content', document.getElementById('optional_content').value);
+    
+    // Build URL to widget.html (adjust path if necessary)
+    const embedUrl = window.location.origin + window.location.pathname.replace('editor.html', 'widget.html') + '?' + params.toString();
+    document.getElementById('embedLinkContainer').innerHTML =
+      `<strong>Embed URL:</strong> <a href="${embedUrl}" target="_blank">${embedUrl}</a>`;
+  });
