@@ -6,6 +6,10 @@ body {
   padding: 20px;
 }
 
+textarea {
+    font-family: 'Roboto', Arial, system-ui, -apple-system, sans-serif;
+}
+
 h2 {
   font-size: 1.5rem;
   margin-bottom: 20px;
@@ -62,7 +66,7 @@ select {
 input[type="text"]:focus,
 textarea:focus,
 select:focus {
-  border-color: #007BFF;
+  border-color: #357ab8;
   outline: none;
 }
 
@@ -71,23 +75,30 @@ button {
   padding: 10px 16px;
   border: none;
   border-radius: 6px;
-  background-color: #007BFF;
-  color: #fff;
   font-size: 0.9rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-button:hover {
-  background-color: #0056b3;
+/* Primary action buttons (e.g. 'Add', 'Generate Link') */
+button.primary {
+  background-color: #4a90e2;
+  color: #fff;
 }
 
+button.primary:hover {
+  background-color: #357ab8;
+}
+
+/* Remove buttons */
 button.remove {
-  background-color: #e74c3c;
+  background-color: #b75353;
+  color: #fff;
+  margin-bottom: 12px;
 }
 
 button.remove:hover {
-  background-color: #c0392b;
+  background-color: #a02f2f;
 }
 
 button.small-btn {
@@ -122,13 +133,26 @@ button.small-btn {
   margin-bottom: 10px;
 }
 
+.tab-header .tab-name-input{
+  margin-right: 10px;
+}
+
+.tab-remove-btn {
+  align-self: center;
+}
+
 .rows-container {
   margin-top: 10px;
 }
 
 /* Row elements */
+/* Rows are styled with a subtle border to visually separate them */
 .row {
   margin-bottom: 12px;
+  padding: 10px;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  background: #f9f9f9;
 }
 
 .row textarea,

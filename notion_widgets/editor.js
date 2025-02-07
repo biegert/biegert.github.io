@@ -122,7 +122,7 @@
       tabDiv.appendChild(rowsContainer);
 
       // Button to add a new row
-      const addRowBtn = Utils.createEl("button", { text: "Add Row", classes: ["small-btn", "add-row-btn"] });
+      const addRowBtn = Utils.createEl("button", { text: "Add Row", classes: ["small-btn", "add-row-btn", "primary"] });
       addRowBtn.addEventListener("click", () => {
         addRowToTab(tab);
         renderTabs();
