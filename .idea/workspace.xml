@@ -4,8 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c6975f9a-ac55-4824-b319-93dd67af1446" name="Changes" comment="Added loading functionality">
-      <change beforePath="$PROJECT_DIR$/notion_widgets/widget.css" beforeDir="false" afterPath="$PROJECT_DIR$/notion_widgets/widget.css" afterDir="false" />
+    <list default="true" id="c6975f9a-ac55-4824-b319-93dd67af1446" name="Changes" comment="Allow line breaks">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notion_widgets/editor.css" beforeDir="false" afterPath="$PROJECT_DIR$/notion_widgets/editor.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notion_widgets/editor.html" beforeDir="false" afterPath="$PROJECT_DIR$/notion_widgets/editor.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notion_widgets/widget.html" beforeDir="false" afterPath="$PROJECT_DIR$/notion_widgets/widget.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,7 +128,15 @@
       <option name="project" value="LOCAL" />
       <updated>1738881624520</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Allow line breaks">
+      <option name="closed" value="true" />
+      <created>1738936836067</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1738936836067</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -146,6 +157,7 @@
     <MESSAGE value="Updated css" />
     <MESSAGE value="testing" />
     <MESSAGE value="Added loading functionality" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added loading functionality" />
+    <MESSAGE value="Allow line breaks" />
+    <option name="LAST_COMMIT_MESSAGE" value="Allow line breaks" />
   </component>
 </project>
