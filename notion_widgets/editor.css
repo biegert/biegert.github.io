@@ -6,6 +6,9 @@ body {
 h2 {
   margin-bottom: 10px;
 }
+.container, .editor, .preview {
+  box-sizing: border-box;
+}
 .container {
   display: flex;
   gap: 20px;
@@ -25,12 +28,15 @@ label {
   display: block;
   margin: 8px 0 4px;
 }
-input[type="text"], textarea, select {
+input[type="text"],
+textarea,
+select {
   width: 100%;
   padding: 6px;
   margin-bottom: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  box-sizing: border-box;
 }
 button {
   padding: 6px 10px;
@@ -38,7 +44,7 @@ button {
   border: none;
   border-radius: 4px;
   background: #007BFF;
-  color: #000000;
+  color: #fff;
   cursor: pointer;
 }
 button.remove {
@@ -52,4 +58,37 @@ button.small-btn {
   margin-top: 10px;
   min-height: 20px;
   text-align: center;
+}
+
+/* Classes for dynamic elements */
+.tab-block {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.tab-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.rows-container {
+  margin-top: 10px;
+}
+.tab-name-input,
+.row-heading-input,
+.opt-heading-input {
+  flex: 1;
+}
+.row {
+  margin-bottom: 10px;
+}
+.row textarea,
+.opt-section-block textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+.opt-section-block {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
 }

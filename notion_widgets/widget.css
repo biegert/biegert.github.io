@@ -3,15 +3,14 @@ body {
   background: transparent;
   margin: 20px;
 }
-/* Shared widget styling (applies both to the preview and actual widget) */
 .widget-container,
 .card {
   max-width: 400px;
   background: #f7f8f9;
   border-radius: 8px;
-  box-shadow: 8px 10px 18px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   overflow: hidden;
-  margin: 0 auto; /* centers the widget */
+  margin: 0 auto;
 }
 .widget-header {
   background: #009688;
@@ -19,6 +18,7 @@ body {
   padding: 10px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 .widget-body {
   padding: 10px;
@@ -27,8 +27,7 @@ body {
   font-size: 1.5rem;
   line-height: 1.4;
   font-weight: bold;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin: 20px 0;
 }
 .widget-description {
   color: #72777d;
@@ -37,29 +36,29 @@ body {
 }
 .tab-nav {
   display: flex;
-  border-top: 1px solid #0000000d;
+  border-top: 1px solid #e0e0e0;
 }
 .tab-nav button {
   flex: 1;
   padding: 8px;
   background: none;
   border: none;
-  border-bottom: 1px solid #cccccc;
+  border-bottom: 1px solid #ccc;
   cursor: pointer;
   font-weight: bold;
   color: #72777d;
 }
-.tab-nav button:hover {
-  color: hsl(220, 60%,calc(50% * 1.2));
+.tab-nav button:hover,
+.tab-nav button:focus {
+  color: #0056b3;
   border-bottom: 2px solid rgba(0, 123, 255, 0.6);
 }
 .tab-nav button.active {
-  border-bottom: 2px solid hsl(220, 60%, 50%, 1);
-  color: hsl(220, 60%, 50%, 1);
+  border-bottom: 2px solid #0056b3;
+  color: #0056b3;
 }
 .tab-content {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin: 1rem 0;
 }
 .row-heading {
   color: #72777d;
@@ -76,17 +75,15 @@ body {
   line-height: 1.8;
 }
 .optional-section {
-  border-top: 1px solid #0000000d;
+  border-top: 1px solid #e0e0e0;
   padding-top: 10px;
 }
-
 .optional-heading {
   color: #72777d;
   font-size: 0.9rem;
   letter-spacing: 0.75px;
   padding: 0 5px;
 }
-
 .optional-content {
   color: #54595d;
   font-weight: bold;

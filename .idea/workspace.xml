@@ -4,7 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c6975f9a-ac55-4824-b319-93dd67af1446" name="Changes" comment="Added loading functionality" />
+    <list default="true" id="c6975f9a-ac55-4824-b319-93dd67af1446" name="Changes" comment="Added loading functionality">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notion_widgets/editor.css" beforeDir="false" afterPath="$PROJECT_DIR$/notion_widgets/editor.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notion_widgets/editor.html" beforeDir="false" afterPath="$PROJECT_DIR$/notion_widgets/editor.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notion_widgets/editor.js" beforeDir="false" afterPath="$PROJECT_DIR$/notion_widgets/editor.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notion_widgets/widget.css" beforeDir="false" afterPath="$PROJECT_DIR$/notion_widgets/widget.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notion_widgets/widget.html" beforeDir="false" afterPath="$PROJECT_DIR$/notion_widgets/widget.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notion_widgets/widget.js" beforeDir="false" afterPath="$PROJECT_DIR$/notion_widgets/widget.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -45,7 +54,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/ferdi/OneDrive/Documents/Python/Notion Widgets",
+    "last_opened_file_path": "/Users/biegert/Library/CloudStorage/OneDrive-Personal/Documents/Python/Notion Widgets",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -58,8 +67,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-PY-243.22562.220" />
-        <option value="bundled-python-sdk-0fc6c617c4bd-9a18a617cbe4-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.22562.220" />
+        <option value="bundled-js-predefined-d6986cc7102b-822845ee3bb5-JavaScript-PY-243.23654.177" />
+        <option value="bundled-python-sdk-91d3a02ef49d-43b77aa2d136-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.23654.177" />
       </set>
     </attachedChunks>
   </component>
@@ -73,6 +82,7 @@
       <updated>1738873758923</updated>
       <workItem from="1738873759997" duration="6243000" />
       <workItem from="1738880111668" duration="1524000" />
+      <workItem from="1738923406574" duration="1587000" />
     </task>
     <task id="LOCAL-00001" summary="Updated css">
       <option name="closed" value="true" />

@@ -6,19 +6,19 @@
   <link rel="stylesheet" href="widget.css">
 </head>
 <body>
-  <div class="widget-container">
-    <div class="widget-header" id="widgetHeader">
-      <div id="widgetCategory">Header Left</div>
-      <div id="widgetDepartment">Header Right</div>
-    </div>
-    <div class="widget-body">
-      <div class="widget-title" id="widgetTitle">Procedure Title</div>
-      <div class="widget-description" id="widgetDescription">Description</div>
-      <div class="tab-nav" id="widgetTabNav"></div>
-      <div class="tab-content" id="widgetTabContent"></div>
-      <div class="optional-section" id="widgetOptional"></div>
-    </div>
-  </div>
+  <section class="widget-container" aria-label="Article Summary Widget">
+    <header class="widget-header" id="widgetHeader">
+      <div id="widgetCategory" aria-label="Left Header">Header Left</div>
+      <div id="widgetDepartment" aria-label="Right Header">Header Right</div>
+    </header>
+    <main class="widget-body">
+      <h1 class="widget-title" id="widgetTitle">Procedure Title</h1>
+      <p class="widget-description" id="widgetDescription">Description</p>
+      <nav class="tab-nav" id="widgetTabNav" aria-label="Tab Navigation"></nav>
+      <section class="tab-content" id="widgetTabContent"></section>
+      <section class="optional-section" id="widgetOptional"></section>
+    </main>
+  </section>
   <script src="widget.js"></script>
 </body>
 </html>

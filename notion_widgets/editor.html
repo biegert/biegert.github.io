@@ -7,23 +7,25 @@
   <link rel="stylesheet" href="widget.css">
 </head>
 <body>
-  <h2>Widget Editor</h2>
-  <div class="container">
-    <div class="editor">
-      <!-- General fields -->
+  <header>
+    <h2>Widget Editor</h2>
+  </header>
+  <main class="container">
+    <!-- Editor Section -->
+    <section class="editor" aria-label="Widget Editor">
       <div class="section">
         <label for="category">Left Header</label>
         <input type="text" id="category" value="Z.b. Operationsverfahren">
-  
+
         <label for="department">Right Header</label>
         <input type="text" id="department" value="Z.b. Thoraxchirurgie">
-  
+
         <label for="title">Title</label>
         <input type="text" id="title" value="Titel">
-  
+
         <label for="description">Description</label>
         <textarea id="description" rows="2">Eine kurze Erklärung.</textarea>
-  
+
         <label for="headingColor">Header Color</label>
         <select id="headingColor">
           <option value="#508b8b">Teal</option>
@@ -32,21 +34,21 @@
           <option value="#c1a65c">Gold</option>
         </select>
       </div>
-  
-      <!-- Tabs section -->
+
+      <!-- Tabs Section -->
       <div class="section">
         <h3>Tabs (1–4)</h3>
         <div id="tabsContainer"></div>
         <button id="addTab">Add Tab</button>
       </div>
-  
-      <!-- Optional sections -->
+
+      <!-- Optional Sections -->
       <div class="section">
         <h3>Optional Sections (0–4)</h3>
         <div id="optContainer"></div>
         <button id="addOpt">Add Optional Section</button>
       </div>
-  
+
       <!-- Load Existing Widget -->
       <div class="section">
         <label for="loadLink">Load Existing Widget Embed Link</label>
@@ -54,28 +56,29 @@
         <button id="loadWidget">Load Widget</button>
       </div>
 
-      <!-- Generate embed link -->
+      <!-- Generate Embed Link -->
       <button id="generateLink">Generate Embed Link</button>
       <div id="embedLinkContainer"></div>
-    </div>
-  
-    <div class="preview">
+    </section>
+
+    <!-- Live Preview Section -->
+    <section class="preview" aria-label="Live Preview">
       <h3>Live Preview</h3>
       <div class="card" id="previewCard">
-        <div class="widget-header" id="previewHeader">
+        <header class="widget-header" id="previewHeader">
           <div id="previewCategory">Operationsverfahren</div>
           <div id="previewDepartment">Abteilung Gynäkologie</div>
-        </div>
+        </header>
         <div class="widget-body">
-          <div class="widget-title" id="previewTitle">Cholecystectomy</div>
-          <div class="widget-description" id="previewDescription">Standard laparoscopic cholecystectomy procedure.</div>
-          <div class="tab-nav" id="previewTabNav"></div>
-          <div class="tab-content" id="previewTabContent"></div>
-          <div class="optional-section" id="previewOptional"></div>
+          <h1 class="widget-title" id="previewTitle">Cholecystectomy</h1>
+          <p class="widget-description" id="previewDescription">Standard laparoscopic cholecystectomy procedure.</p>
+          <nav class="tab-nav" id="previewTabNav"></nav>
+          <section class="tab-content" id="previewTabContent"></section>
+          <section class="optional-section" id="previewOptional"></section>
         </div>
       </div>
-    </div>
-  </div>
+    </section>
+  </main>
   <script src="editor.js"></script>
 </body>
 </html>
