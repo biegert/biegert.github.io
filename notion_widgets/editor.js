@@ -228,24 +228,25 @@
     });
   }
 
-  // Build the embed URL using URLSearchParams (with proper encoding)
+  // Build the embed URL using compression
   function buildEmbedUrl() {
-    const params = new URLSearchParams();
-    params.set("cat", document.getElementById("category").value);
-    params.set("dept", document.getElementById("department").value);
-    params.set("title", document.getElementById("title").value);
-    params.set("desc", document.getElementById("description").value);
-    params.set("headColor", document.getElementById("headingColor").value);
+    const config = {
+      cat: document.getElementById("category").value,
+      dept: document.getElementById("department").value,
+      title: document.getElementById("title").value,
+      desc: document.getElementById("description").value,
+      headColor: document.getElementById("headingColor").value,
+      tabs: tabs.map(tab => ({
+        name: tab.name,
+        rows: tab.rows.map(r => ({ heading: r.heading, content: r.content }))
+      })),
+      opt_sections: optSections.map(opt => ({ heading: opt.heading, content: opt.content }))
+    };
 
-    const tabsData = tabs.map(tab => ({
-      name: tab.name,
-      rows: tab.rows.map(r => ({ heading: r.heading, content: r.content }))
-    }));
-    params.set("tabs", JSON.stringify(tabsData));
-    params.set("opt_sections", JSON.stringify(optSections.map(opt => ({ heading: opt.heading, content: opt.content }))));
-
+    const json = JSON.stringify(config);
+    const compressed = LZString.compressToEncodedURIComponent(json);
     const widgetPath = window.location.pathname.replace('editor.html', 'widget.html');
-    return `${window.location.origin}${widgetPath}?${params.toString()}`;
+    return `${window.location.origin}${widgetPath}?data=${compressed}`;
   }
 
   // Attach event listeners for basic fields
@@ -276,16 +277,25 @@
     try {
       const url = new URL(link);
       const params = new URLSearchParams(url.search);
+      const compressedData = params.get("data");
+
+      if (!compressedData) {
+        alert("No valid data found in URL");
+        return;
+      }
+
+      const json = LZString.decompressFromEncodedURIComponent(compressedData);
+      const config = JSON.parse(json);
 
       // Update basic fields
-      document.getElementById("category").value = params.get("cat") || "";
-      document.getElementById("department").value = params.get("dept") || "";
-      document.getElementById("title").value = params.get("title") || "";
-      document.getElementById("description").value = params.get("desc") || "";
-      document.getElementById("headingColor").value = params.get("headColor") || "#009688";
+      document.getElementById("category").value = config.cat || "";
+      document.getElementById("department").value = config.dept || "";
+      document.getElementById("title").value = config.title || "";
+      document.getElementById("description").value = config.desc || "";
+      document.getElementById("headingColor").value = config.headColor || "#009688";
 
-      // Parse and update tabs
-      const parsedTabs = JSON.parse(params.get("tabs") || "[]");
+      // Update tabs
+      const parsedTabs = config.tabs || [];
       tabs = [];
       parsedTabs.forEach(t => {
         const newTab = { id: Utils.uniqueId(), name: t.name, rows: [] };
@@ -295,8 +305,8 @@
         tabs.push(newTab);
       });
 
-      // Parse and update optional sections
-      const parsedOpts = JSON.parse(params.get("opt_sections") || "[]");
+      // Update optional sections
+      const parsedOpts = config.opt_sections || [];
       optSections = [];
       parsedOpts.forEach(o => {
         optSections.push({ id: Utils.uniqueId(), heading: o.heading, content: o.content });

@@ -6,26 +6,37 @@
     }
   };
 
-  // Set header and basic text elements
-  document.getElementById("widgetCategory").textContent = Utils.getParam("cat");
-  document.getElementById("widgetDepartment").textContent = Utils.getParam("dept");
-  document.getElementById("widgetTitle").textContent = Utils.getParam("title");
-  document.getElementById("widgetDescription").textContent = Utils.getParam("desc");
-  document.getElementById("widgetHeader").style.background = Utils.getParam("headColor") || "#009688";
-
-  // Parse tabs data with error handling
-  let tabsData = [];
+  // Retrieve and decompress the configuration
+  const compressedData = Utils.getParam("data");
+  let config = {};
   try {
-    tabsData = JSON.parse(Utils.getParam("tabs"));
-    if (!Array.isArray(tabsData)) throw new Error("Invalid tabs data");
+    const json = LZString.decompressFromEncodedURIComponent(compressedData);
+    config = JSON.parse(json);
   } catch (e) {
-    tabsData = [{
-      name: "Anästhesie",
-      rows: [{ heading: "Overview", content: "Details regarding anesthesia protocols." }]
-    }];
+    // Fallback default configuration
+    config = {
+      cat: "Header Left",
+      dept: "Header Right",
+      title: "Procedure Title",
+      desc: "Description",
+      headColor: "#009688",
+      tabs: [{
+        name: "Anästhesie",
+        rows: [{ heading: "Overview", content: "Details regarding anesthesia protocols." }]
+      }],
+      opt_sections: []
+    };
   }
 
-  // Build tab navigation
+  // Set header and basic text elements
+  document.getElementById("widgetCategory").textContent = config.cat;
+  document.getElementById("widgetDepartment").textContent = config.dept;
+  document.getElementById("widgetTitle").textContent = config.title;
+  document.getElementById("widgetDescription").textContent = config.desc;
+  document.getElementById("widgetHeader").style.background = config.headColor || "#009688";
+
+  // Use config.tabs for tab navigation
+  let tabsData = config.tabs || [];
   const tabNav = document.getElementById("widgetTabNav");
   tabsData.forEach((tab, index) => {
     const btn = document.createElement("button");
@@ -55,14 +66,8 @@
   }
   if (tabsData.length) renderTabContent(0);
 
-  // Parse and render optional sections
-  let optSections = [];
-  try {
-    optSections = JSON.parse(Utils.getParam("opt_sections"));
-    if (!Array.isArray(optSections)) throw new Error("Invalid optional sections data");
-  } catch (e) {
-    optSections = [];
-  }
+  // Process optional sections
+  let optSections = config.opt_sections || [];
   const optDiv = document.getElementById("widgetOptional");
   if (optSections.length > 0) {
     optSections.forEach(opt => {
