@@ -252,7 +252,7 @@
   document.querySelectorAll("#category, #department, #title, #description, #headingColor")
     .forEach(el => el.addEventListener("input", updatePreviewDebounced));
 
-  document.getElementById("addTab").addEventListener("click", createTab);
+  document.getElementById("addTab").addEventListener("click", () => createTab());
   document.getElementById("addOpt").addEventListener("click", () => {
     const newOpt = { id: Utils.uniqueId(), heading: "", content: "" };
     optSections.push(newOpt);
