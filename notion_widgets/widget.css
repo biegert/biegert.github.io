@@ -15,7 +15,7 @@ body {
 }
 
 .widget-header {
-  background: #009688;
+  background: #508b8b;
   color: #fff;
   padding: 10px;
   display: flex;
@@ -60,6 +60,9 @@ body {
   color: #72777d;
   position: relative;
   min-width: 80px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .tab-nav button:hover,

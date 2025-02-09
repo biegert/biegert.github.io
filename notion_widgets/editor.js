@@ -23,6 +23,15 @@
       container.textContent = message;
       container.classList.add("show");
       setTimeout(() => container.classList.remove("show"), 3000);
+    },
+    sanitizeText: function(text) {
+      return text.trim();
+    },
+    isValidColor: function(color) {
+      return /^#[0-9A-Fa-f]{6}$/.test(color);
+    },
+    getTextContent: function(element) {
+      return element.textContent.trim();
     }
   };
 
@@ -82,7 +91,7 @@
         // Only update if the change wasn't from removing the x button
         const removeBtn = tabBtn.querySelector('.tab-remove');
         if (!removeBtn || removeBtn.parentNode === tabBtn) {
-          tab.name = tabBtn.textContent.replace('×', '').trim();
+          tab.name = Utils.sanitizeText(tabBtn.textContent.replace('×', ''));
         }
       });
       
@@ -123,7 +132,7 @@
       });
       heading.textContent = row.heading;
       heading.addEventListener("input", () => {
-        row.heading = heading.innerText; // Use innerText to preserve line breaks
+        row.heading = Utils.sanitizeText(heading.innerText); // Use innerText to preserve line breaks
       });
       
       const content = Utils.createEl("div", {
@@ -132,7 +141,7 @@
       });
       content.textContent = row.content;
       content.addEventListener("input", () => {
-        row.content = content.innerText; // Use innerText to preserve line breaks
+        row.content = Utils.sanitizeText(content.innerText); // Use innerText to preserve line breaks
       });
       
       const controls = Utils.createEl("div", { classes: ["row-edit-controls"] });
@@ -176,7 +185,7 @@
       });
       heading.textContent = opt.heading;
       heading.addEventListener("input", () => {
-        opt.heading = heading.innerText; // Use innerText to preserve line breaks
+        opt.heading = Utils.sanitizeText(heading.innerText); // Use innerText to preserve line breaks
       });
       
       const content = Utils.createEl("div", {
@@ -185,7 +194,7 @@
       });
       content.textContent = opt.content;
       content.addEventListener("input", () => {
-        opt.content = content.innerText; // Use innerText to preserve line breaks
+        opt.content = Utils.sanitizeText(content.innerText); // Use innerText to preserve line breaks
       });
       
       const removeBtn = Utils.createEl("button", {
@@ -208,23 +217,36 @@
 
   // URL and Data Management
   function buildEmbedUrl() {
+    const headColor = document.getElementById("headingColor").value;
+    if (!Utils.isValidColor(headColor)) {
+      Utils.showMessage("Invalid header color");
+      return null;
+    }
+
     const config = {
-      cat: document.getElementById("widgetCategory").textContent,
-      dept: document.getElementById("widgetDepartment").textContent,
-      title: document.getElementById("widgetTitle").textContent,
-      desc: document.getElementById("widgetDescription").textContent,
-      headColor: document.getElementById("headingColor").value,
+      cat: Utils.getTextContent(document.getElementById("widgetCategory")),
+      dept: Utils.getTextContent(document.getElementById("widgetDepartment")),
+      title: Utils.getTextContent(document.getElementById("widgetTitle")),
+      desc: Utils.getTextContent(document.getElementById("widgetDescription")),
+      headColor: headColor,
       tabs: tabs.map(tab => ({
-        name: tab.name,
-        rows: tab.rows.map(r => ({ heading: r.heading, content: r.content }))
+        name: Utils.sanitizeText(tab.name),
+        rows: tab.rows.map(r => ({ 
+          heading: Utils.sanitizeText(r.heading), 
+          content: Utils.sanitizeText(r.content) 
+        }))
       })),
-      opt_sections: optSections.map(opt => ({ heading: opt.heading, content: opt.content }))
+      opt_sections: optSections.map(opt => ({ 
+        heading: Utils.sanitizeText(opt.heading), 
+        content: Utils.sanitizeText(opt.content) 
+      }))
     };
 
     const json = JSON.stringify(config);
     const compressed = LZString.compressToEncodedURIComponent(json);
-    const widgetPath = window.location.pathname.replace('editor.html', 'widget.html');
-    return `${window.location.origin}${widgetPath}?data=${compressed}`;
+    // Use URL constructor to handle path resolution
+    const widgetUrl = new URL('widget.html', window.location.href);
+    return `${widgetUrl.href}?data=${compressed}`;
   }
 
   function loadWidget(link) {
@@ -246,8 +268,8 @@
       document.getElementById("widgetDepartment").textContent = config.dept || "";
       document.getElementById("widgetTitle").textContent = config.title || "";
       document.getElementById("widgetDescription").textContent = config.desc || "";
-      document.getElementById("headingColor").value = config.headColor || "#009688";
-      document.getElementById("widgetHeader").style.background = config.headColor || "#009688";
+      document.getElementById("headingColor").value = config.headColor || "#508b8b";
+      document.getElementById("widgetHeader").style.background = config.headColor || "#508b8b";
 
       // Update tabs
       tabs = (config.tabs || []).map(t => ({
@@ -276,7 +298,10 @@
 
   // Event Listeners
   document.getElementById("headingColor").addEventListener("input", (e) => {
-    document.getElementById("widgetHeader").style.background = e.target.value;
+    const color = e.target.value;
+    if (Utils.isValidColor(color)) {
+      document.getElementById("widgetHeader").style.background = color;
+    }
   });
 
   document.getElementById("addTab").addEventListener("click", () => createTab());
@@ -294,9 +319,11 @@
 
   document.getElementById("generateLink").addEventListener("click", () => {
     const embedUrl = buildEmbedUrl();
-    navigator.clipboard.writeText(embedUrl)
-      .then(() => Utils.showMessage("Embed link copied to clipboard!"))
-      .catch(() => Utils.showMessage("Failed to copy embed link"));
+    if (embedUrl) {
+      navigator.clipboard.writeText(embedUrl)
+        .then(() => Utils.showMessage("Embed link copied to clipboard!"))
+        .catch(() => Utils.showMessage("Failed to copy embed link"));
+    }
   });
 
   document.getElementById("loadWidget").addEventListener("click", () => {
@@ -304,7 +331,8 @@
     if (link) loadWidget(link);
   });
 
-  // Initialize widget
+  // Initialize widget with consistent default color
+  document.getElementById("headingColor").value = "#508b8b";
   createTab("Tab 1");
   renderTabs();
   renderOptSections();

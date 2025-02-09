@@ -1,4 +1,10 @@
 (() => {
+  // Check if LZString is loaded
+  if (typeof LZString === 'undefined') {
+    console.error('LZString library not loaded. Widget may not function correctly.');
+    return;
+  }
+
   const Utils = {
     getParam: function(param) {
       const params = new URLSearchParams(window.location.search);
@@ -13,13 +19,14 @@
     const json = LZString.decompressFromEncodedURIComponent(compressedData);
     config = JSON.parse(json);
   } catch (e) {
+    console.warn('Failed to parse widget data:', e);
     // Fallback default configuration
     config = {
       cat: "Header Left",
       dept: "Header Right",
       title: "Procedure Title",
       desc: "Description",
-      headColor: "#009688",
+      headColor: "#508b8b",
       tabs: [{
         name: "Anästhesie",
         rows: [{ heading: "Overview", content: "Details regarding anesthesia protocols." }]

@@ -10,18 +10,18 @@
 </head>
 <body>
   <main class="widget-editor-container">
-    <div class="widget-actions">
-      <input type="text" id="loadLink" placeholder="Paste embed link here">
-      <button id="loadWidget" class="primary">Load</button>
-      <button id="generateLink" class="primary">Generate Link</button>
-      <div id="embedLinkContainer"></div>
+    <div class="widget-actions" role="toolbar" aria-label="Widget Actions">
+      <input type="text" id="loadLink" placeholder="Paste embed link here" aria-label="Embed link input">
+      <button id="loadWidget" class="primary" aria-label="Load widget from link">Load</button>
+      <button id="generateLink" class="primary" aria-label="Generate embed link">Generate Link</button>
+      <div id="embedLinkContainer" role="status" aria-live="polite"></div>
     </div>
 
     <div class="widget-container" id="editableWidget">
-      <header class="widget-header" id="widgetHeader" contenteditable="true">
-        <div id="widgetCategory" class="editable">Header Left</div>
+      <header class="widget-header" id="widgetHeader">
+        <div id="widgetCategory" class="editable" role="textbox" aria-label="Left header text" contenteditable="true">Header Left</div>
         <div class="header-color-picker">
-          <input type="color" id="headingColor" value="#508b8b" list="presetColors">
+          <input type="color" id="headingColor" value="#508b8b" aria-label="Header color" list="presetColors">
         </div>
         <datalist id="presetColors">
           <option value="#508b8b"/>
@@ -29,23 +29,23 @@
           <option value="#cc7a6f"/>
           <option value="#c1a65c"/>
         </datalist>
-        <div id="widgetDepartment" class="editable">Header Right</div>
+        <div id="widgetDepartment" class="editable" role="textbox" aria-label="Right header text" contenteditable="true">Header Right</div>
       </header>
       <main class="widget-body">
-        <h1 class="widget-title editable" id="widgetTitle" contenteditable="true">Procedure Title</h1>
-        <p class="widget-description editable" id="widgetDescription" contenteditable="true">Description</p>
+        <h1 class="widget-title editable" id="widgetTitle" role="textbox" aria-label="Widget title" contenteditable="true">Procedure Title</h1>
+        <p class="widget-description editable" id="widgetDescription" role="textbox" aria-label="Widget description" contenteditable="true">Description</p>
         
         <div class="tab-controls">
-          <nav class="tab-nav" id="widgetTabNav"></nav>
-          <button id="addTab" class="icon-button" title="Add Tab">+</button>
+          <nav class="tab-nav" id="widgetTabNav" role="tablist"></nav>
+          <button id="addTab" class="icon-button" aria-label="Add new tab" title="Add Tab">+</button>
         </div>
         
-        <section class="tab-content" id="widgetTabContent"></section>
+        <section class="tab-content" id="widgetTabContent" role="tabpanel"></section>
         
         <div class="optional-controls">
-          <button id="addOptional" class="icon-button" title="Add Optional Section">+ Add Optional Section</button>
+          <button id="addOptional" class="icon-button" aria-label="Add optional section" title="Add Optional Section">+ Add Optional Section</button>
         </div>
-        <section class="optional-section" id="widgetOptional"></section>
+        <section class="optional-section" id="widgetOptional" aria-label="Optional sections"></section>
       </main>
     </div>
   </main>
