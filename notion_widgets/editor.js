@@ -122,14 +122,14 @@
         attrs: { contenteditable: "true" },
         text: row.heading
       });
-      heading.addEventListener("input", () => row.heading = heading.textContent);
+      heading.addEventListener("input", () => row.heading = heading.innerHTML);
       
       const content = Utils.createEl("div", {
         classes: ["row-content", "editable"],
         attrs: { contenteditable: "true" },
         text: row.content
       });
-      content.addEventListener("input", () => row.content = content.textContent);
+      content.addEventListener("input", () => row.content = content.innerHTML);
       
       const controls = Utils.createEl("div", { classes: ["row-edit-controls"] });
       
@@ -171,14 +171,14 @@
         attrs: { contenteditable: "true" },
         text: opt.heading
       });
-      heading.addEventListener("input", () => opt.heading = heading.textContent);
+      heading.addEventListener("input", () => opt.heading = heading.innerHTML);
       
       const content = Utils.createEl("div", {
         classes: ["optional-content", "editable"],
         attrs: { contenteditable: "true" },
         text: opt.content
       });
-      content.addEventListener("input", () => opt.content = content.textContent);
+      content.addEventListener("input", () => opt.content = content.innerHTML);
       
       const removeBtn = Utils.createEl("button", {
         classes: ["icon-button"],
@@ -201,10 +201,10 @@
   // URL and Data Management
   function buildEmbedUrl() {
     const config = {
-      cat: document.getElementById("widgetCategory").textContent,
-      dept: document.getElementById("widgetDepartment").textContent,
-      title: document.getElementById("widgetTitle").textContent,
-      desc: document.getElementById("widgetDescription").textContent,
+      cat: document.getElementById("widgetCategory").innerHTML,
+      dept: document.getElementById("widgetDepartment").innerHTML,
+      title: document.getElementById("widgetTitle").innerHTML,
+      desc: document.getElementById("widgetDescription").innerHTML,
       headColor: document.getElementById("headingColor").value,
       tabs: tabs.map(tab => ({
         name: tab.name,
