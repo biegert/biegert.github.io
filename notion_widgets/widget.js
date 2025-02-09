@@ -29,10 +29,10 @@
   }
 
   // Set header and basic text elements
-  document.getElementById("widgetCategory").textContent = config.cat;
-  document.getElementById("widgetDepartment").textContent = config.dept;
-  document.getElementById("widgetTitle").textContent = config.title;
-  document.getElementById("widgetDescription").textContent = config.desc;
+  document.getElementById("widgetCategory").innerHTML = config.cat;
+  document.getElementById("widgetDepartment").innerHTML = config.dept;
+  document.getElementById("widgetTitle").innerHTML = config.title;
+  document.getElementById("widgetDescription").innerHTML = config.desc;
   document.getElementById("widgetHeader").style.background = config.headColor || "#009688";
 
   // Use config.tabs for tab navigation
@@ -56,10 +56,10 @@
     rows.forEach(row => {
       const heading = document.createElement("div");
       heading.className = "row-heading";
-      heading.textContent = row.heading;
+      heading.innerHTML = row.heading;
       const content = document.createElement("div");
       content.className = "row-content";
-      content.textContent = row.content;
+      content.innerHTML = row.content;
       contentDiv.appendChild(heading);
       contentDiv.appendChild(content);
     });
@@ -73,10 +73,10 @@
     optSections.forEach(opt => {
       const heading = document.createElement("div");
       heading.className = "optional-heading";
-      heading.textContent = opt.heading;
+      heading.innerHTML = opt.heading;
       const content = document.createElement("div");
       content.className = "optional-content";
-      content.textContent = opt.content;
+      content.innerHTML = opt.content;
       optDiv.appendChild(heading);
       optDiv.appendChild(content);
     });
