@@ -119,17 +119,21 @@
       
       const heading = Utils.createEl("div", {
         classes: ["row-heading", "editable"],
-        attrs: { contenteditable: "true" },
-        text: row.heading
+        attrs: { contenteditable: "true" }
       });
-      heading.addEventListener("input", () => row.heading = heading.textContent);
+      heading.textContent = row.heading;
+      heading.addEventListener("input", () => {
+        row.heading = heading.innerText; // Use innerText to preserve line breaks
+      });
       
       const content = Utils.createEl("div", {
         classes: ["row-content", "editable"],
-        attrs: { contenteditable: "true" },
-        text: row.content
+        attrs: { contenteditable: "true" }
       });
-      content.addEventListener("input", () => row.content = content.textContent);
+      content.textContent = row.content;
+      content.addEventListener("input", () => {
+        row.content = content.innerText; // Use innerText to preserve line breaks
+      });
       
       const controls = Utils.createEl("div", { classes: ["row-edit-controls"] });
       
@@ -168,17 +172,21 @@
       
       const heading = Utils.createEl("div", {
         classes: ["optional-heading", "editable"],
-        attrs: { contenteditable: "true" },
-        text: opt.heading
+        attrs: { contenteditable: "true" }
       });
-      heading.addEventListener("input", () => opt.heading = heading.textContent);
+      heading.textContent = opt.heading;
+      heading.addEventListener("input", () => {
+        opt.heading = heading.innerText; // Use innerText to preserve line breaks
+      });
       
       const content = Utils.createEl("div", {
         classes: ["optional-content", "editable"],
-        attrs: { contenteditable: "true" },
-        text: opt.content
+        attrs: { contenteditable: "true" }
       });
-      content.addEventListener("input", () => opt.content = content.textContent);
+      content.textContent = opt.content;
+      content.addEventListener("input", () => {
+        opt.content = content.innerText; // Use innerText to preserve line breaks
+      });
       
       const removeBtn = Utils.createEl("button", {
         classes: ["icon-button"],

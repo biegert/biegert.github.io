@@ -56,10 +56,10 @@
     rows.forEach(row => {
       const heading = document.createElement("div");
       heading.className = "row-heading";
-      heading.textContent = row.heading;
+      heading.innerText = row.heading; // Use innerText to preserve line breaks
       const content = document.createElement("div");
       content.className = "row-content";
-      content.textContent = row.content;
+      content.innerText = row.content; // Use innerText to preserve line breaks
       contentDiv.appendChild(heading);
       contentDiv.appendChild(content);
     });
@@ -73,10 +73,10 @@
     optSections.forEach(opt => {
       const heading = document.createElement("div");
       heading.className = "optional-heading";
-      heading.textContent = opt.heading;
+      heading.innerText = opt.heading; // Use innerText to preserve line breaks
       const content = document.createElement("div");
       content.className = "optional-content";
-      content.textContent = opt.content;
+      content.innerText = opt.content; // Use innerText to preserve line breaks
       optDiv.appendChild(heading);
       optDiv.appendChild(content);
     });
