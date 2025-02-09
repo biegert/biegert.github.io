@@ -56,22 +56,41 @@
     tabs.forEach((tab, index) => {
       // Create tab button
       const tabBtn = Utils.createEl("button", {
-        text: tab.name,
         attrs: { 
-          contenteditable: "true",
+          contenteditable: "plaintext-only",
           "data-tab-id": tab.id
         }
       });
+      tabBtn.textContent = tab.name;
       
       tabBtn.classList.toggle("active", index === 0);
-      tabBtn.addEventListener("input", () => {
-        tab.name = tabBtn.textContent;
+      
+      // Handle tab switching on click
+      tabBtn.addEventListener("click", (e) => {
+        if (!e.target.classList.contains('tab-remove')) {
+          // Remove active class from all tabs
+          nav.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+          // Add active class to clicked tab
+          tabBtn.classList.add('active');
+          // Render content for this tab
+          renderTabContent(tab);
+        }
+      });
+
+      // Handle title editing
+      tabBtn.addEventListener("input", (e) => {
+        // Only update if the change wasn't from removing the x button
+        const removeBtn = tabBtn.querySelector('.tab-remove');
+        if (!removeBtn || removeBtn.parentNode === tabBtn) {
+          tab.name = tabBtn.textContent.replace('×', '').trim();
+        }
       });
       
       if (tabs.length > minTabs) {
         const removeBtn = Utils.createEl("span", {
           text: "×",
-          classes: ["tab-remove"]
+          classes: ["tab-remove"],
+          attrs: { contenteditable: "false" }
         });
         removeBtn.addEventListener("click", (e) => {
           e.stopPropagation();

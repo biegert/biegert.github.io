@@ -80,6 +80,10 @@ body {
   transform: translateY(-50%);
   opacity: 0;
   transition: opacity 0.2s;
+  user-select: none;
+  -webkit-user-select: none;
+  pointer-events: all;
+  contenteditable: false;
 }
 
 .tab-nav button:hover .tab-remove {
