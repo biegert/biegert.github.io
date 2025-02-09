@@ -83,7 +83,6 @@ body {
   user-select: none;
   -webkit-user-select: none;
   pointer-events: all;
-  contenteditable: false;
 }
 
 .tab-nav button:hover .tab-remove {
