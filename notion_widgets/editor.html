@@ -20,10 +20,16 @@
     <div class="widget-container" id="editableWidget">
       <header class="widget-header" id="widgetHeader" contenteditable="true">
         <div id="widgetCategory" class="editable">Header Left</div>
-        <div id="widgetDepartment" class="editable">Header Right</div>
         <div class="header-color-picker">
-          <input type="color" id="headingColor" value="#009688">
+          <input type="color" id="headingColor" value="#508b8b" list="presetColors">
         </div>
+        <datalist id="presetColors">
+          <option value="#508b8b"/>
+          <option value="#668ba9"/>
+          <option value="#cc7a6f"/>
+          <option value="#c1a65c"/>
+        </datalist>
+        <div id="widgetDepartment" class="editable">Header Right</div>
       </header>
       <main class="widget-body">
         <h1 class="widget-title editable" id="widgetTitle" contenteditable="true">Procedure Title</h1>

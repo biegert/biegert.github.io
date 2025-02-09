@@ -56,7 +56,6 @@ textarea,
 select {
   width: 100%;
   padding: 10px;
-  margin-bottom: 12px;
   border: 1px solid #ddd;
   border-radius: 6px;
   transition: border 0.3s ease;
@@ -221,7 +220,6 @@ button.small-btn {
 
 /* Header color picker */
 .header-color-picker {
-  position: absolute;
   top: 5px;
   right: 5px;
   opacity: 0.5;
