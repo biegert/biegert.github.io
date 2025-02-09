@@ -1,240 +1,191 @@
 (() => {
+  // Data and Constants
+  let tabs = [];
+  let optSections = [];
+  const maxTabs = 4, minTabs = 1, maxOpts = 4;
+
   // Utility functions
   const Utils = {
     createEl: function(tag, options = {}) {
       const el = document.createElement(tag);
-      if (options.classes) {
-        options.classes.forEach(cls => el.classList.add(cls));
-      }
-      if (options.attrs) {
-        for (const key in options.attrs) {
-          el.setAttribute(key, options.attrs[key]);
-        }
-      }
-      if (options.text) {
-        el.textContent = options.text;
-      }
+      if (options.classes) el.classList.add(...options.classes);
+      if (options.attrs) Object.entries(options.attrs).forEach(([k, v]) => el.setAttribute(k, v));
+      if (options.text) el.textContent = options.text;
+      if (options.html) el.innerHTML = options.html;
       return el;
     },
     uniqueId: (() => {
       let id = 0;
       return () => ++id;
     })(),
-    debounce: function(func, delay) {
-      let timeout;
-      return function(...args) {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => func.apply(this, args), delay);
-      };
+    showMessage: function(message) {
+      const container = document.getElementById("embedLinkContainer");
+      container.textContent = message;
+      container.classList.add("show");
+      setTimeout(() => container.classList.remove("show"), 3000);
     }
   };
 
-  // Data and Constants
-  let tabs = [];
-  let optSections = [];
-  const maxTabs = 4, minTabs = 1, maxOpts = 4;
-  const updatePreviewDebounced = Utils.debounce(updatePreview, 300);
-
-  // Tab & Row Functions
-  function createTab(name = "Tab " + (tabs.length + 1)) {
+  // Tab Management
+  function createTab(name = "New Tab") {
+    if (tabs.length >= maxTabs) return;
     const tab = { id: Utils.uniqueId(), name, rows: [] };
     addRowToTab(tab);
     tabs.push(tab);
     renderTabs();
   }
 
-  function addRowToTab(tab, heading = "", content = "") {
+  function addRowToTab(tab, heading = "New Heading", content = "Content") {
     tab.rows.push({ id: Utils.uniqueId(), heading, content });
   }
 
   function removeRowFromTab(tab, rowId) {
     if (tab.rows.length > 1) {
       tab.rows = tab.rows.filter(r => r.id !== rowId);
+      renderTabs();
     }
   }
 
-  // Render Tabs
+  // Render Functions
   function renderTabs() {
-    const container = document.getElementById("tabsContainer");
-    container.innerHTML = "";
-    tabs.forEach(tab => {
-      const tabDiv = Utils.createEl("div", { classes: ["tab-block"] });
-      tabDiv.dataset.tabId = tab.id;
+    const nav = document.getElementById("widgetTabNav");
+    const content = document.getElementById("widgetTabContent");
+    nav.innerHTML = "";
+    content.innerHTML = "";
 
-      // Header row for tab name and remove button
-      const headerRow = Utils.createEl("div", { classes: ["tab-header"] });
-      const nameInput = Utils.createEl("input", { classes: ["tab-name-input"] });
-      nameInput.type = "text";
-      nameInput.value = tab.name;
-      nameInput.addEventListener("input", () => {
-        tab.name = nameInput.value;
-        updatePreviewDebounced();
+    tabs.forEach((tab, index) => {
+      // Create tab button
+      const tabBtn = Utils.createEl("button", {
+        text: tab.name,
+        attrs: { 
+          contenteditable: "true",
+          "data-tab-id": tab.id
+        }
       });
-      headerRow.appendChild(nameInput);
-
+      
+      tabBtn.classList.toggle("active", index === 0);
+      tabBtn.addEventListener("input", () => {
+        tab.name = tabBtn.textContent;
+      });
+      
       if (tabs.length > minTabs) {
-        const removeTabBtn = Utils.createEl("button", { text: "Remove", classes: ["remove", "small-btn", "tab-remove-btn"] });
-        removeTabBtn.addEventListener("click", () => {
+        const removeBtn = Utils.createEl("span", {
+          text: "×",
+          classes: ["tab-remove"]
+        });
+        removeBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
           tabs = tabs.filter(t => t.id !== tab.id);
           renderTabs();
-          updatePreviewDebounced();
         });
-        headerRow.appendChild(removeTabBtn);
+        tabBtn.appendChild(removeBtn);
       }
-      tabDiv.appendChild(headerRow);
+      
+      nav.appendChild(tabBtn);
+    });
 
-      // Rows container for each tab
-      const rowsContainer = Utils.createEl("div", { classes: ["rows-container"] });
-      tab.rows.forEach(row => {
-        const rowDiv = Utils.createEl("div", { classes: ["row"] });
+    // Render content for first tab
+    if (tabs.length) renderTabContent(tabs[0]);
+    
+    document.getElementById("addTab").style.display = 
+      tabs.length >= maxTabs ? "none" : "block";
+  }
 
-        const rowHeading = Utils.createEl("input", { classes: ["row-heading-input"] });
-        rowHeading.type = "text";
-        rowHeading.placeholder = "Row Heading";
-        rowHeading.value = row.heading;
-        rowHeading.addEventListener("input", () => {
-          row.heading = rowHeading.value;
-          updatePreviewDebounced();
-        });
-        rowDiv.appendChild(rowHeading);
+  function renderTabContent(tab) {
+    const contentDiv = document.getElementById("widgetTabContent");
+    contentDiv.innerHTML = "";
 
-        const rowContent = Utils.createEl("textarea", { classes: ["row-content-textarea"] });
-        rowContent.rows = 2;
-        rowContent.placeholder = "Row Content";
-        rowContent.value = row.content;
-        rowContent.addEventListener("input", () => {
-          row.content = rowContent.value;
-          updatePreviewDebounced();
-        });
-        rowDiv.appendChild(rowContent);
-
-        if (tab.rows.length > 1) {
-          const removeRowBtn = Utils.createEl("button", { text: "Remove Row", classes: ["remove", "small-btn", "row-remove-btn"] });
-          removeRowBtn.addEventListener("click", () => {
-            removeRowFromTab(tab, row.id);
-            renderTabs();
-            updatePreviewDebounced();
-          });
-          rowDiv.appendChild(removeRowBtn);
-        }
-        rowsContainer.appendChild(rowDiv);
+    tab.rows.forEach(row => {
+      const rowContainer = Utils.createEl("div", { classes: ["row-container"] });
+      
+      const heading = Utils.createEl("div", {
+        classes: ["row-heading", "editable"],
+        attrs: { contenteditable: "true" },
+        text: row.heading
       });
-      tabDiv.appendChild(rowsContainer);
-
-      // Button to add a new row
-      const addRowBtn = Utils.createEl("button", { text: "Add Row", classes: ["small-btn", "add-row-btn", "primary"] });
-      addRowBtn.addEventListener("click", () => {
+      heading.addEventListener("input", () => row.heading = heading.textContent);
+      
+      const content = Utils.createEl("div", {
+        classes: ["row-content", "editable"],
+        attrs: { contenteditable: "true" },
+        text: row.content
+      });
+      content.addEventListener("input", () => row.content = content.textContent);
+      
+      const controls = Utils.createEl("div", { classes: ["row-edit-controls"] });
+      
+      if (tab.rows.length > 1) {
+        const removeBtn = Utils.createEl("button", {
+          classes: ["icon-button"],
+          text: "×",
+          attrs: { title: "Remove Row" }
+        });
+        removeBtn.addEventListener("click", () => removeRowFromTab(tab, row.id));
+        controls.appendChild(removeBtn);
+      }
+      
+      const addBtn = Utils.createEl("button", {
+        classes: ["icon-button"],
+        text: "+",
+        attrs: { title: "Add Row Below" }
+      });
+      addBtn.addEventListener("click", () => {
         addRowToTab(tab);
         renderTabs();
-        updatePreviewDebounced();
       });
-      tabDiv.appendChild(addRowBtn);
-      container.appendChild(tabDiv);
+      controls.appendChild(addBtn);
+      
+      rowContainer.append(heading, content, controls);
+      contentDiv.appendChild(rowContainer);
     });
-    document.getElementById("addTab").disabled = (tabs.length >= maxTabs);
-    updatePreviewDebounced();
   }
 
-  // Render Optional Sections
   function renderOptSections() {
-    const container = document.getElementById("optContainer");
+    const container = document.getElementById("widgetOptional");
     container.innerHTML = "";
+    
     optSections.forEach(opt => {
-      const optDiv = Utils.createEl("div", { classes: ["opt-section-block"] });
-      optDiv.dataset.optId = opt.id;
-
-      const headingInput = Utils.createEl("input", { classes: ["opt-heading-input"] });
-      headingInput.type = "text";
-      headingInput.placeholder = "Optional Heading";
-      headingInput.value = opt.heading;
-      headingInput.addEventListener("input", () => {
-        opt.heading = headingInput.value;
-        updatePreviewDebounced();
+      const section = Utils.createEl("div", { classes: ["opt-section-container"] });
+      
+      const heading = Utils.createEl("div", {
+        classes: ["optional-heading", "editable"],
+        attrs: { contenteditable: "true" },
+        text: opt.heading
       });
-      optDiv.appendChild(headingInput);
-
-      const contentInput = Utils.createEl("textarea", { classes: ["opt-content-textarea"] });
-      contentInput.rows = 2;
-      contentInput.placeholder = "Optional Content";
-      contentInput.value = opt.content;
-      contentInput.addEventListener("input", () => {
-        opt.content = contentInput.value;
-        updatePreviewDebounced();
+      heading.addEventListener("input", () => opt.heading = heading.textContent);
+      
+      const content = Utils.createEl("div", {
+        classes: ["optional-content", "editable"],
+        attrs: { contenteditable: "true" },
+        text: opt.content
       });
-      optDiv.appendChild(contentInput);
-
-      const removeOptBtn = Utils.createEl("button", { text: "Remove", classes: ["remove", "small-btn", "opt-remove-btn"] });
-      removeOptBtn.addEventListener("click", () => {
+      content.addEventListener("input", () => opt.content = content.textContent);
+      
+      const removeBtn = Utils.createEl("button", {
+        classes: ["icon-button"],
+        text: "×",
+        attrs: { title: "Remove Section" }
+      });
+      removeBtn.addEventListener("click", () => {
         optSections = optSections.filter(o => o.id !== opt.id);
         renderOptSections();
-        updatePreviewDebounced();
       });
-      optDiv.appendChild(removeOptBtn);
-
-      container.appendChild(optDiv);
+      
+      section.append(heading, content, removeBtn);
+      container.appendChild(section);
     });
-    document.getElementById("addOpt").disabled = (optSections.length >= maxOpts);
-    updatePreviewDebounced();
+    
+    document.getElementById("addOptional").style.display = 
+      optSections.length >= maxOpts ? "none" : "block";
   }
 
-  // Update live preview
-  function updatePreview() {
-    document.getElementById("previewCategory").textContent = document.getElementById("category").value;
-    document.getElementById("previewDepartment").textContent = document.getElementById("department").value;
-    document.getElementById("previewTitle").textContent = document.getElementById("title").value;
-    document.getElementById("previewDescription").textContent = document.getElementById("description").value;
-    document.getElementById("previewHeader").style.background = document.getElementById("headingColor").value;
-
-    // Build tab navigation
-    const nav = document.getElementById("previewTabNav");
-    nav.innerHTML = "";
-    tabs.forEach((tab, index) => {
-      const btn = Utils.createEl("button", { text: tab.name });
-      btn.classList.toggle("active", index === 0);
-      btn.addEventListener("click", () => renderTabContent(tab));
-      nav.appendChild(btn);
-    });
-    if (tabs.length) renderTabContent(tabs[0]);
-
-    // Render optional sections
-    const optDiv = document.getElementById("previewOptional");
-    optDiv.innerHTML = "";
-    if (optSections.length > 0) {
-      optSections.forEach(opt => {
-        const h = Utils.createEl("div", { text: opt.heading });
-        h.className = "optional-heading";
-        const p = Utils.createEl("div", { text: opt.content });
-        p.className = "optional-content";
-        optDiv.appendChild(h);
-        optDiv.appendChild(p);
-      });
-    }
-  }
-
-  // Render content for a selected tab
-  function renderTabContent(tab) {
-    document.querySelectorAll("#previewTabNav button").forEach((btn, idx) => {
-      btn.classList.toggle("active", tabs[idx].id === tab.id);
-    });
-    const contentDiv = document.getElementById("previewTabContent");
-    contentDiv.innerHTML = "";
-    tab.rows.forEach(row => {
-      const h = Utils.createEl("div", { text: row.heading });
-      h.className = "row-heading";
-      const p = Utils.createEl("div", { text: row.content });
-      p.className = "row-content";
-      contentDiv.appendChild(h);
-      contentDiv.appendChild(p);
-    });
-  }
-
-  // Build the embed URL using compression
+  // URL and Data Management
   function buildEmbedUrl() {
     const config = {
-      cat: document.getElementById("category").value,
-      dept: document.getElementById("department").value,
-      title: document.getElementById("title").value,
-      desc: document.getElementById("description").value,
+      cat: document.getElementById("widgetCategory").textContent,
+      dept: document.getElementById("widgetDepartment").textContent,
+      title: document.getElementById("widgetTitle").textContent,
+      desc: document.getElementById("widgetDescription").textContent,
       headColor: document.getElementById("headingColor").value,
       tabs: tabs.map(tab => ({
         name: tab.name,
@@ -249,80 +200,85 @@
     return `${window.location.origin}${widgetPath}?data=${compressed}`;
   }
 
-  // Attach event listeners for basic fields
-  document.querySelectorAll("#category, #department, #title, #description, #headingColor")
-    .forEach(el => el.addEventListener("input", updatePreviewDebounced));
-
-  document.getElementById("addTab").addEventListener("click", () => createTab());
-  document.getElementById("addOpt").addEventListener("click", () => {
-    const newOpt = { id: Utils.uniqueId(), heading: "", content: "" };
-    optSections.push(newOpt);
-    renderOptSections();
-  });
-
-  document.getElementById("generateLink").addEventListener("click", () => {
-    const embedUrl = buildEmbedUrl();
-    navigator.clipboard.writeText(embedUrl)
-      .then(() => {
-        const container = document.getElementById("embedLinkContainer");
-        container.textContent = "Embed link copied to clipboard!";
-        setTimeout(() => { container.textContent = ""; }, 3000);
-      })
-      .catch(() => alert("Failed to copy embed link"));
-  });
-
-  document.getElementById("loadWidget").addEventListener("click", () => {
-    const link = document.getElementById("loadLink").value.trim();
-    if (!link) return;
+  function loadWidget(link) {
     try {
       const url = new URL(link);
       const params = new URLSearchParams(url.search);
       const compressedData = params.get("data");
 
       if (!compressedData) {
-        alert("No valid data found in URL");
+        Utils.showMessage("No valid data found in URL");
         return;
       }
 
       const json = LZString.decompressFromEncodedURIComponent(compressedData);
       const config = JSON.parse(json);
 
-      // Update basic fields
-      document.getElementById("category").value = config.cat || "";
-      document.getElementById("department").value = config.dept || "";
-      document.getElementById("title").value = config.title || "";
-      document.getElementById("description").value = config.desc || "";
+      // Update basic content
+      document.getElementById("widgetCategory").textContent = config.cat || "";
+      document.getElementById("widgetDepartment").textContent = config.dept || "";
+      document.getElementById("widgetTitle").textContent = config.title || "";
+      document.getElementById("widgetDescription").textContent = config.desc || "";
       document.getElementById("headingColor").value = config.headColor || "#009688";
+      document.getElementById("widgetHeader").style.background = config.headColor || "#009688";
 
       // Update tabs
-      const parsedTabs = config.tabs || [];
-      tabs = [];
-      parsedTabs.forEach(t => {
-        const newTab = { id: Utils.uniqueId(), name: t.name, rows: [] };
-        t.rows.forEach(r => {
-          newTab.rows.push({ id: Utils.uniqueId(), heading: r.heading, content: r.content });
-        });
-        tabs.push(newTab);
-      });
+      tabs = (config.tabs || []).map(t => ({
+        id: Utils.uniqueId(),
+        name: t.name,
+        rows: t.rows.map(r => ({
+          id: Utils.uniqueId(),
+          heading: r.heading,
+          content: r.content
+        }))
+      }));
 
       // Update optional sections
-      const parsedOpts = config.opt_sections || [];
-      optSections = [];
-      parsedOpts.forEach(o => {
-        optSections.push({ id: Utils.uniqueId(), heading: o.heading, content: o.content });
-      });
+      optSections = (config.opt_sections || []).map(o => ({
+        id: Utils.uniqueId(),
+        heading: o.heading,
+        content: o.content
+      }));
 
       renderTabs();
       renderOptSections();
-      updatePreviewDebounced();
     } catch (e) {
-      alert("Invalid embed link");
+      Utils.showMessage("Invalid embed link");
+    }
+  }
+
+  // Event Listeners
+  document.getElementById("headingColor").addEventListener("input", (e) => {
+    document.getElementById("widgetHeader").style.background = e.target.value;
+  });
+
+  document.getElementById("addTab").addEventListener("click", () => createTab());
+  
+  document.getElementById("addOptional").addEventListener("click", () => {
+    if (optSections.length < maxOpts) {
+      optSections.push({
+        id: Utils.uniqueId(),
+        heading: "New Optional Section",
+        content: "Optional content"
+      });
+      renderOptSections();
     }
   });
 
-  // Initial rendering
-  createTab();
+  document.getElementById("generateLink").addEventListener("click", () => {
+    const embedUrl = buildEmbedUrl();
+    navigator.clipboard.writeText(embedUrl)
+      .then(() => Utils.showMessage("Embed link copied to clipboard!"))
+      .catch(() => Utils.showMessage("Failed to copy embed link"));
+  });
+
+  document.getElementById("loadWidget").addEventListener("click", () => {
+    const link = document.getElementById("loadLink").value.trim();
+    if (link) loadWidget(link);
+  });
+
+  // Initialize widget
+  createTab("Tab 1");
   renderTabs();
   renderOptSections();
-  updatePreviewDebounced();
 })();

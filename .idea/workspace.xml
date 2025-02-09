@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c6975f9a-ac55-4824-b319-93dd67af1446" name="Changes" comment="Visual changes">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notion_widgets/editor.html" beforeDir="false" afterPath="$PROJECT_DIR$/notion_widgets/editor.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notion_widgets/editor.js" beforeDir="false" afterPath="$PROJECT_DIR$/notion_widgets/editor.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notion_widgets/widget.html" beforeDir="false" afterPath="$PROJECT_DIR$/notion_widgets/widget.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notion_widgets/widget.js" beforeDir="false" afterPath="$PROJECT_DIR$/notion_widgets/widget.js" afterDir="false" />
-    </list>
+    <list default="true" id="c6975f9a-ac55-4824-b319-93dd67af1446" name="Changes" comment="Added url encoding" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -153,7 +147,15 @@
       <option name="project" value="LOCAL" />
       <updated>1738939750219</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Added url encoding">
+      <option name="closed" value="true" />
+      <created>1738941176232</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1738941176232</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -176,6 +178,7 @@
     <MESSAGE value="Added loading functionality" />
     <MESSAGE value="Allow line breaks" />
     <MESSAGE value="Visual changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Visual changes" />
+    <MESSAGE value="Added url encoding" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added url encoding" />
   </component>
 </project>

@@ -3,83 +3,45 @@
 <head>
   <meta charset="UTF-8">
   <title>Widget Editor</title>
-  <link rel="stylesheet" href="editor.css">
   <link rel="stylesheet" href="widget.css">
+  <link rel="stylesheet" href="editor.css">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/lz-string@1.4.4/libs/lz-string.min.js"></script>
 </head>
 <body>
-  <header>
-    <h2>Widget Editor</h2>
-  </header>
-  <main class="container">
-    <!-- Editor Section -->
-    <section class="editor" aria-label="Widget Editor">
-      <div class="section">
-        <label for="category">Left Header</label>
-        <input type="text" id="category" value="Z.b. Operationsverfahren">
-
-        <label for="department">Right Header</label>
-        <input type="text" id="department" value="Z.b. Thoraxchirurgie">
-
-        <label for="title">Title</label>
-        <input type="text" id="title" value="Titel">
-
-        <label for="description">Description</label>
-        <textarea id="description" rows="2">Eine kurze Erklärung.</textarea>
-
-        <label for="headingColor">Header Color</label>
-        <select id="headingColor">
-          <option value="#508b8b">Teal</option>
-          <option value="#668ba9">Blue</option>
-          <option value="#cc7a6f">Red</option>
-          <option value="#c1a65c">Gold</option>
-        </select>
-      </div>
-
-      <!-- Tabs Section -->
-      <div class="section">
-        <h3>Tabs (1–4)</h3>
-        <div id="tabsContainer"></div>
-        <button id="addTab" class="primary">Add Tab</button>
-      </div>
-
-      <!-- Optional Sections -->
-      <div class="section">
-        <h3>Optional Sections (0–4)</h3>
-        <div id="optContainer"></div>
-        <button id="addOpt" class="primary">Add Optional Section</button>
-      </div>
-
-      <!-- Load Existing Widget -->
-      <div class="section">
-        <label for="loadLink">Load Existing Widget Embed Link</label>
-        <input type="text" id="loadLink" placeholder="Paste embed link here">
-        <button id="loadWidget" class="primary">Load Widget</button>
-      </div>
-
-      <!-- Generate Embed Link -->
-      <button id="generateLink" class="primary">Generate Embed Link</button>
+  <main class="widget-editor-container">
+    <div class="widget-actions">
+      <input type="text" id="loadLink" placeholder="Paste embed link here">
+      <button id="loadWidget" class="primary">Load</button>
+      <button id="generateLink" class="primary">Generate Link</button>
       <div id="embedLinkContainer"></div>
-    </section>
+    </div>
 
-    <!-- Live Preview Section -->
-    <section class="preview" aria-label="Live Preview">
-      <h3>Live Preview</h3>
-      <div class="card" id="previewCard">
-        <header class="widget-header" id="previewHeader">
-          <div id="previewCategory">Operationsverfahren</div>
-          <div id="previewDepartment">Abteilung Gynäkologie</div>
-        </header>
-        <div class="widget-body">
-          <h1 class="widget-title" id="previewTitle">Cholecystectomy</h1>
-          <p class="widget-description" id="previewDescription">Standard laparoscopic cholecystectomy procedure.</p>
-          <nav class="tab-nav" id="previewTabNav"></nav>
-          <section class="tab-content" id="previewTabContent"></section>
-          <section class="optional-section" id="previewOptional"></section>
+    <div class="widget-container" id="editableWidget">
+      <header class="widget-header" id="widgetHeader" contenteditable="true">
+        <div id="widgetCategory" class="editable">Header Left</div>
+        <div id="widgetDepartment" class="editable">Header Right</div>
+        <div class="header-color-picker">
+          <input type="color" id="headingColor" value="#009688">
         </div>
-      </div>
-    </section>
+      </header>
+      <main class="widget-body">
+        <h1 class="widget-title editable" id="widgetTitle" contenteditable="true">Procedure Title</h1>
+        <p class="widget-description editable" id="widgetDescription" contenteditable="true">Description</p>
+        
+        <div class="tab-controls">
+          <nav class="tab-nav" id="widgetTabNav"></nav>
+          <button id="addTab" class="icon-button" title="Add Tab">+</button>
+        </div>
+        
+        <section class="tab-content" id="widgetTabContent"></section>
+        
+        <div class="optional-controls">
+          <button id="addOptional" class="icon-button" title="Add Optional Section">+ Add Optional Section</button>
+        </div>
+        <section class="optional-section" id="widgetOptional"></section>
+      </main>
+    </div>
   </main>
   <script src="editor.js"></script>
 </body>
