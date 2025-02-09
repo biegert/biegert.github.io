@@ -1,12 +1,32 @@
+:root {
+  /* Color variables */
+  --primary-color: #508b8b;
+  --primary-hover: #447777;
+  --link-color: #0056b3;
+  --text-primary: #54595d;
+  --text-secondary: #72777d;
+  --bg-primary: #f7f8f9;
+  --border-color: #e0e0e0;
+  
+  /* Spacing */
+  --spacing-xs: 5px;
+  --spacing-sm: 8px;
+  --spacing-md: 10px;
+  --spacing-lg: 15px;
+  --spacing-xl: 20px;
+}
+
 body {
   font-family: 'Roboto', Arial, system-ui, -apple-system, sans-serif;
   background: transparent;
-  margin: 20px;
+  margin: var(--spacing-xl);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .widget-container {
   max-width: 400px;
-  background: #f7f8f9;
+  background: var(--bg-primary);
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   overflow: hidden;
@@ -15,70 +35,75 @@ body {
 }
 
 .widget-header {
-  background: #508b8b;
+  background: var(--primary-color);
   color: #fff;
-  padding: 10px;
+  padding: var(--spacing-md);
   display: flex;
   justify-content: space-between;
   align-items: center;
   position: relative;
+  gap: var(--spacing-md);
 }
 
 .widget-body {
-  padding: 10px;
+  padding: var(--spacing-md);
 }
 
 .widget-title {
   font-size: 1.5rem;
   line-height: 1.4;
-  font-weight: bold;
-  margin: 20px 0;
+  font-weight: 700;
+  margin: var(--spacing-xl) 0;
   min-height: 1.4em;
 }
 
 .widget-description {
-  color: #72777d;
+  color: var(--text-secondary);
   font-size: 14px;
-  margin-bottom: 15px;
+  margin-bottom: var(--spacing-lg);
   white-space: pre-wrap;
   min-height: 1em;
 }
 
+/* Tab Navigation */
 .tab-nav {
   display: flex;
   flex: 1;
+  gap: var(--spacing-xs);
 }
 
 .tab-nav button {
   flex: 1;
-  padding: 8px;
+  padding: var(--spacing-sm);
   background: none;
   border: none;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid var(--border-color);
   cursor: pointer;
-  font-weight: bold;
-  color: #72777d;
+  font-weight: 600;
+  color: var(--text-secondary);
   position: relative;
   min-width: 80px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  transition: color 0.2s, border-color 0.2s;
 }
 
 .tab-nav button:hover,
-.tab-nav button:focus {
-  color: #0056b3;
-  border-bottom: 2px solid rgba(0, 123, 255, 0.6);
+.tab-nav button:focus-visible {
+  color: var(--link-color);
+  border-bottom: 2px solid rgba(0, 86, 179, 0.6);
+  outline: none;
 }
 
 .tab-nav button.active {
-  border-bottom: 2px solid #0056b3;
-  color: #0056b3;
+  border-bottom: 2px solid var(--link-color);
+  color: var(--link-color);
 }
 
 .tab-nav button .tab-remove {
   position: absolute;
-  right: 5px;
+  right: var(--spacing-xs);
   top: 50%;
   transform: translateY(-50%);
   opacity: 0;
@@ -92,28 +117,39 @@ body {
   opacity: 1;
 }
 
+/* Content Sections */
 .tab-content {
   margin: 1rem 0;
 }
 
-.row-container {
+.row-container,
+.opt-section-container {
   position: relative;
-  padding: 5px;
-  margin-bottom: 10px;
+  padding: var(--spacing-xs);
+  margin-bottom: var(--spacing-md);
+  transition: background-color 0.2s;
 }
 
-.row-heading {
-  color: #72777d;
+.row-container:hover,
+.opt-section-container:hover {
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 4px;
+}
+
+.row-heading,
+.optional-heading {
+  color: var(--text-secondary);
   font-size: 0.9rem;
   letter-spacing: 0.75px;
-  padding: 5px;
+  padding: var(--spacing-xs);
   min-height: 1em;
 }
 
-.row-content {
-  color: #54595d;
-  font-weight: bold;
-  padding: 5px;
+.row-content,
+.optional-content {
+  color: var(--text-primary);
+  font-weight: 600;
+  padding: var(--spacing-xs);
   margin-bottom: 0.2rem;
   font-size: 0.9rem;
   line-height: 1.8;
@@ -122,33 +158,8 @@ body {
 }
 
 .optional-section {
-  border-top: 1px solid #e0e0e0;
-  padding-top: 10px;
-}
-
-.opt-section-container {
-  position: relative;
-  padding: 5px;
-  margin-bottom: 10px;
-}
-
-.optional-heading {
-  color: #72777d;
-  font-size: 0.9rem;
-  letter-spacing: 0.75px;
-  padding: 5px;
-  min-height: 1em;
-}
-
-.optional-content {
-  color: #54595d;
-  font-weight: bold;
-  padding: 5px;
-  margin-bottom: 0.2rem;
-  font-size: 0.9rem;
-  line-height: 1.8;
-  white-space: pre-wrap;
-  min-height: 1em;
+  border-top: 1px solid var(--border-color);
+  padding-top: var(--spacing-md);
 }
 
 [contenteditable]:empty:before {
@@ -157,8 +168,8 @@ body {
   font-style: italic;
 }
 
-.row-container:hover,
-.opt-section-container:hover {
-  background: rgba(0, 0, 0, 0.02);
-  border-radius: 4px;
+/* Focus styles for accessibility */
+:focus-visible {
+  outline: 2px solid var(--link-color);
+  outline-offset: 2px;
 }
